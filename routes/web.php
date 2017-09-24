@@ -26,9 +26,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 // 		// Route::get('/:identifier', )	
 // 	}
 // );
-
+// -------------------signup--------------
 Route::get('/api/users/{identifier}', 'Users\UserController@sendUser');
 Route::post('/api/users', 'Users\UserController@store');
+// -----------------login--------------
+Route::post('/api/auth', 'Users\UserController@authUser');
 
 
 // Route::get('issues-modal/{company}', 'CompanyController@layoutModal');

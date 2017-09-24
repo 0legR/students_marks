@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTFactory;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -47,6 +49,19 @@ class UserController extends Controller
     public function sendUser($identifier) {
     	$user = User::where('username', $identifier)->orWhere('email', $identifier)->get();
     	return response()->json($user);
+    }
+
+    public function authUser(Request $request) {
+    	$user = User::where('username', $request->identifier)->orWhere('email', $request->identifier)->get();
+    	foreach ($user as $data) {
+	    	if (Hash::check($request->password, $data->password)) {
+				$forever = "secretWord";
+				$payload = JWTFactory::sub($data->username)->email($data->email)->forever($forever)->make();
+				$token = JWTAuth::encode($payload);
+	    		return response()->json(['token' => $token->get()]);
+	    	}
+    	}
+    	return response()->json(['errors' => ['form' => 'Invalid Credentials']]);
     }
 
 }
