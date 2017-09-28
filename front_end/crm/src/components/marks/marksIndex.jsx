@@ -5,6 +5,7 @@ import {saveMark, getMarks} from '../../actions/marksActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addFlashMessages} from '../../actions/flashMessages';
+// import uniqid from 'uniqid';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -17,6 +18,7 @@ class MarksIndex extends Component {
 		}
 		this.handlerOnChange = this.handlerOnChange.bind(this);
 		this.handlerOnSubmit = this.handlerOnSubmit.bind(this);
+		this.handlerAddRow = this.handlerAddRow.bind(this);
 	}
 
 	componentDidMount()	{
@@ -27,7 +29,7 @@ class MarksIndex extends Component {
 	handlerOnChange(e) {
 		let marksTemp = this.state.marks;
 		marksTemp.forEach(function(mark) {
-			if (mark.id === Number(e.target.id)) {
+			if (String(mark.id) === String(e.target.id) || !mark.id) {
 				let name = String(e.target.name);
 				mark[`${name}`] = e.target.value;
 			}
@@ -48,16 +50,10 @@ class MarksIndex extends Component {
 
 	handlerOnSubmit(e) {
 		e.preventDefault();
-		// console.log(this.isValid());
-
 		if (this.isValid()) {
-			// const {allName, visually, code, explanation, stability} = this.state;
-			// const {presentation, questions, favoritePlace, favoritism, printOut} = this.state;
-			// const {englishPD, git, notes} = this.state;
 			const {marks} = this.state;
-			console.log("submit", marks);
+			console.log(marks);
 			this.setState({errors: {}, isLoading: true});
-
 			this.props.saveMark({marks})
 				.then(() => {
 					this.props.addFlashMessages({
@@ -71,6 +67,29 @@ class MarksIndex extends Component {
 				);
 		};
 		setTimeout(() => {this.setState({isLoading: false})}, 2000);
+	}
+
+	handlerAddRow() {
+		let marksTemp = this.state.marks;
+		marksTemp.push({
+			// id: uniqid(),
+			all_name: "",
+			visually: "",
+			code: "",
+			explanation: "",
+			stability: "",
+			presentation: "",
+			questions: "",
+			favorite_place: "",
+			favoritism: "",
+			print_out: "",
+			english_pd: "",
+			git: "",
+			notes: ""
+		});
+		this.setState({
+			marks: marksTemp
+		});
 	}
 
 	render() {
@@ -292,14 +311,17 @@ class MarksIndex extends Component {
 					<tfoot className="full-width">
 						<tr>
 							<th>
-								<button className="ui right floated small primary labeled icon button" disabled={isLoading || invalid }>
-									<i className="user icon"></i> Add User
+								<button className="ui small primary button" disabled={isLoading || invalid }>
+									Save All
 								</button>
-								<div className="ui small  button">
-									Approve
+								<div
+									className="ui right floated small secondary labeled icon button"
+									onClick={this.handlerAddRow}
+								>
+									<i className="user icon"></i> Add Student
 								</div>
-								<div className="ui small  disabled button">
-									Approve All
+								<div className="ui small negative button">
+									Remove All
 								</div>
 							</th>
 						</tr>

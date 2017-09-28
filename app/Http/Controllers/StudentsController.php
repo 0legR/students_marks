@@ -32,19 +32,7 @@ class StudentsController extends Controller
             if ($validator->fails()) {
             	return response()->json($validator->errors(), 422);
             }
-
-            $student = Student::firstOrCreate(['id' => $mark['id']]);
-            $studentAttributesForSumm = array_only($mark, [
-            	'visually',
-            	'code',
-            	'explanation',
-            	'stability',
-            	'presentation',
-            	'questions',
-            	'favorite_place'
-            ]);
-            $result = self::summColumns($studentAttributesForSumm);
-            $studentAttributesForSumm = array_only($mark, [
+            $studentAttributes = array_only($mark, [
                 'visually',
                 'code',
                 'explanation',
@@ -59,10 +47,27 @@ class StudentsController extends Controller
                 'git',
                 'notes'
             ]);
-            $student->fill($studentAttributesForSumm);
-            $student->columns_summ = $result['columnSumm'];
-            $student->columns_amount = $result['amountColumns'];
-            $student->current_rating = $result['columnSumm'] / $result['amountColumns'];
+
+            $student = Student::updateOrCreate($studentAttributes);
+
+            $studentAttributesForSumm = array_only($mark, [
+            	'visually',
+            	'code',
+            	'explanation',
+            	'stability',
+            	'presentation',
+            	'questions',
+            	'favorite_place'
+            ]);
+            $result = self::summColumns($studentAttributesForSumm);
+
+            $student->fill($studentAttributes);
+            
+            if ($result) {
+                $student->columns_summ = $result['columnSumm'];
+                $student->columns_amount = $result['amountColumns'];
+                $student->current_rating = $result['columnSumm'] / $result['amountColumns'];
+            }
             
             $student->save();
         }
@@ -85,7 +90,8 @@ class StudentsController extends Controller
     			$amountColumns++;
     		}
     	}
+
     	$columnSumm = array_sum($attrForSumm);
-    	return compact('columnSumm', 'amountColumns');
+    	return $amountColumns !== 0 ? compact('columnSumm', 'amountColumns') : false;
     }
 }

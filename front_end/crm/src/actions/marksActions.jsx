@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {SET_MARKS_TO_REDUX} from './types';
 
-export function saveMark(markData) {console.log(markData);
+export function saveMark(markData) {
 	return dispatch => axios.post('/api/students', markData);
 }
 
