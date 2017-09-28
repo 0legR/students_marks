@@ -1,0 +1,181 @@
+/*-----------------------Stick footer to bottom---------------------------*/
+.container-main {
+	min-height: 100vh;
+}
+
+.main-content {
+	padding-bottom: 11vh;
+}
+
+.footer-main {
+	background: linear-gradient(rgb(232, 232, 232), rgb(28, 28, 28));
+  	color: red;
+  	width: 100%;
+  	height: 10vh;
+  	margin-top: -10vh;
+}
+/*------------------------header section------------------------------*/
+.header-block {
+	display: block !important;
+}
+
+.header-text-logo{
+	display: inline-block;
+}
+
+.main-header-container .ui.block.header, .home-header-container .ui.block.header {
+	background: linear-gradient(rgb(28, 28, 28), rgb(232, 232, 232));
+	color: white;
+}
+
+.login {
+	float: right;
+	margin-top: 1em;
+}
+
+.login-field {
+	margin-right: 5px;
+	display: inline-block;
+}
+
+.ui.form .fields {
+	display: inline-block;
+}
+
+.login-2-fields {
+	display: block !important;
+	margin-right: 0 !important;
+}
+
+.login-error {
+	margin: 0 5px 3px -6px;
+}
+
+.ui.message {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.login-header {
+	margin-bottom: 3px;
+}
+
+.ui.header .ui.label {
+	margin-left: 0;
+}
+
+.login-button {
+	margin: -10px 0 0 15px;
+	float: right;
+}
+
+.signup {
+	width: 30em;
+	margin: auto;
+}
+
+.ui.header>.image:not(.icon), .ui.header>img {
+	width: 10em;
+}
+
+.ui.segment>.item {
+	max-width: 10em;
+	max-height: 10em;
+}
+
+.ui.secondary.pointing.menu .item {
+	padding: 2px;
+}
+
+.text-field-group {
+	color: #9f3a38;
+}
+
+.ui.secondary.pointing.menu .item {
+	margin-right: 20px;
+}
+
+
+/*-------------------Users settings section---------------------*/
+.settings-container {
+	margin-top: 1em;
+}
+.settings-container .ui.block.header {
+	background-color: rgba(54, 54, 54, .4);
+	border-color: rgba(255, 0, 255, 1);
+}
+
+.settings-container ul {
+	list-style-type: none;
+}
+
+.header-settings {
+	background-color: rgba(207, 207, 207, .4)!important;
+}
+
+.create-button {
+	margin-bottom: 10px !important;
+}
+
+.ui .table {
+	border: none;
+}
+
+.ui .table thead th {
+	color: white;
+	background-color: black;
+}
+
+.ui .table .table-filter th {
+	border: 2px solid black;
+	background: transparent;
+}
+
+.input-filter {
+	width: 100%;
+}
+
+.create-type-button {
+	margin-top: 10px;
+}
+/*---------------------User Types Section--------------------------*/
+.usertype-th {
+	margin-left: 20px;
+}
+
+.usertype-th-destroy {
+	margin-left: 90px;
+}
+
+.usertype-destroy {
+	color: red;
+	text-align: center;
+}
+/*---------------------Marks Section---------------------------------*/
+.marks-outside-container {
+	width: 100%;
+}
+
+.marks-index-container {
+	overflow-y: hidden;
+    overflow-x: scroll;
+	width:100%;
+	/*margin-left: -30px;*/
+}
+
+.marks-index-container input {
+	border: none;
+}
+
+.errors-block {
+	display: block;
+	margin-top: 5px;
+}
+/*.marks-index-container .ui.table thead th {
+	font-weight: 300;
+}
+
+.marks-index-container .ui.table {
+	font-size: 0.87em;
+}*/
+
