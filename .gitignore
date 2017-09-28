@@ -13,7 +13,7 @@ yarn-error.log
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/frontend/crm/node_modules
+/front_end/crm/node_modules
 
 # testing
 /coverage

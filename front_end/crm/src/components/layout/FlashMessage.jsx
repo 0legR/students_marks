@@ -16,12 +16,14 @@ export default class FlashMessage extends Component {
 		const {type, text} = this.props.message;
 
 		return (
-			<div className={classnames(null, {
-				'ui success message': type === "success",
-				'ui negative message': type === "error"
-			})}>
-				<i className="close icon" onClick={this.handleOnClick}></i>
-				<div className="header">{text}</div>
+			<div className="flash-message">
+				<div className={classnames(null, {
+					'ui success message': type === "success",
+					'ui negative message': type === "error"
+				})}>
+					<i className="close icon" onClick={this.handleOnClick}></i>
+					<div className="header">{text}</div>
+				</div>
 			</div>
 		);
 	}

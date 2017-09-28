@@ -94,7 +94,14 @@
 .ui.secondary.pointing.menu .item {
 	margin-right: 20px;
 }
+/*------------------------flash-message-section---------------------------*/
+.flash-message {
+	margin-top: 1em;
+}
 
+.flash-message .ui.message>.close.icon {
+	top: 0;
+}
 
 /*-------------------Users settings section---------------------*/
 .settings-container {

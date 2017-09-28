@@ -4,6 +4,7 @@ import validateInput from '../../utils/validations/marks';
 import {saveMark, getMarks} from '../../actions/marksActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {addFlashMessages} from '../../actions/flashMessages';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -69,13 +70,10 @@ class MarksIndex extends Component {
 					(error) => this.setState({errors: error.response.data, isLoading: false})
 				);
 		};
+		setTimeout(() => {this.setState({isLoading: false})}, 2000);
 	}
 
 	render() {
-		console.log(this.state.marks);
-		// const {code, explanation, stability} = this.state;
-		// const {presentation, questions, favoritePlace, favoritism, printOut} = this.state;
-
 		const {isLoading, invalid, errors} = this.state;
 		const {marks} = this.state;
 		const ROW = marks.map((mark, key) => <tr key={key}>
@@ -316,7 +314,8 @@ class MarksIndex extends Component {
 MarksIndex.propTypes = {
 	saveMark: PropTypes.func.isRequired,
 	getMarks: PropTypes.func.isRequired,
-	marks: PropTypes.array.isRequired
+	marks: PropTypes.array.isRequired,
+	addFlashMessages: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -325,4 +324,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {saveMark, getMarks})(MarksIndex);
+export default connect(mapStateToProps, {saveMark, getMarks, addFlashMessages})(MarksIndex);

@@ -10,7 +10,7 @@ class StudentsController extends Controller
 {
     public function storeStudent(Request $request)
     {
-    	 $rules = [
+    	$rules = [
     		'all_name' => 'required|regex:/^[a-zA-Z ]+$/',
     		'visually' => 'nullable|regex:/^[0-5]$/',
     		'code' => 'nullable|regex:/^[0-5]$/',
@@ -33,7 +33,7 @@ class StudentsController extends Controller
             	return response()->json($validator->errors(), 422);
             }
 
-            $student = new Student();
+            $student = Student::firstOrCreate(['id' => $mark['id']]);
             $studentAttributesForSumm = array_only($mark, [
             	'visually',
             	'code',
@@ -60,7 +60,6 @@ class StudentsController extends Controller
                 'notes'
             ]);
             $student->fill($studentAttributesForSumm);
-            // $student->all_name = $request->allName;
             $student->columns_summ = $result['columnSumm'];
             $student->columns_amount = $result['amountColumns'];
             $student->current_rating = $result['columnSumm'] / $result['amountColumns'];
