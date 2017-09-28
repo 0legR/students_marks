@@ -11,26 +11,39 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
-// Route::group([
-// 		'prefix' => '/api/users',
-// 	], function() {
-// 		Route::get('/', 'Users\UserController@store');
-// 		// Route::get('/:identifier', )	
-// 	}
-// );
+
 // -------------------signup--------------
 Route::get('/api/users/{identifier}', 'Users\UserController@sendUser');
 Route::post('/api/users', 'Users\UserController@store');
 // -----------------login--------------
 Route::post('/api/auth', 'Users\UserController@authUser');
+
+// ------------------------students-------------------------------------
+Route::post('/api/students', 'StudentsController@storeStudent');
+Route::get('/api/students', 'StudentsController@sendStudents');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Route::get('issues-modal/{company}', 'CompanyController@layoutModal');
@@ -44,4 +57,10 @@ Route::post('/api/auth', 'Users\UserController@authUser');
 //     Route::get('managers', 'StatsController@managers');
 //     Route::get('designers', 'StatsController@designers');
 // });
-
+// Route::group([
+// 		'prefix' => '/api/users',
+// 	], function() {
+// 		Route::get('/', 'Users\UserController@store');
+// 		// Route::get('/:identifier', )	
+// 	}
+// );
