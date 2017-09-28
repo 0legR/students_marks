@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import main from '../../le/ukr/marks/table';
 import validateInput from '../../utils/validations/marks';
-import {saveMark, getMarks} from '../../actions/marksActions';
+import {saveMark, getMarks, deleteMarks} from '../../actions/marksActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addFlashMessages} from '../../actions/flashMessages';
-// import uniqid from 'uniqid';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -19,18 +18,34 @@ class MarksIndex extends Component {
 		this.handlerOnChange = this.handlerOnChange.bind(this);
 		this.handlerOnSubmit = this.handlerOnSubmit.bind(this);
 		this.handlerAddRow = this.handlerAddRow.bind(this);
+		this.handlerRemoveMarks = this.handlerRemoveMarks.bind(this);
 	}
 
 	componentDidMount()	{
+		let self = this;
 		this.props.getMarks()
-		.then(res => this.setState({marks: res.marks}));
+		.then(res => this.setState({marks: res.marks}))
+		.then(function() {
+			let marksTemp = self.state.marks;
+			marksTemp.forEach(function(mark) {
+				mark['isChecked'] = false;
+			});
+			self.setState({
+				marks: marksTemp
+			});
+		});
 	}
 
 	handlerOnChange(e) {
 		let marksTemp = this.state.marks;
+
 		marksTemp.forEach(function(mark) {
+			
 			if (String(mark.id) === String(e.target.id) || !mark.id) {
 				let name = String(e.target.name);
+				if (e.target.type === 'checkbox') {
+					mark[`${name}`] = e.target.checked;
+				}
 				mark[`${name}`] = e.target.value;
 			}
 		});
@@ -60,6 +75,8 @@ class MarksIndex extends Component {
 						type: "success",
 						text: "You have created/updated new student`s mark successful"
 					});
+			this.props.getMarks()
+				.then(res => this.setState({marks: res.marks}));
 					// this.context.router.history.push('/users/types/');
 				})
 				.catch(
@@ -72,7 +89,6 @@ class MarksIndex extends Component {
 	handlerAddRow() {
 		let marksTemp = this.state.marks;
 		marksTemp.push({
-			// id: uniqid(),
 			all_name: "",
 			visually: "",
 			code: "",
@@ -92,10 +108,31 @@ class MarksIndex extends Component {
 		});
 	}
 
+	handlerRemoveMarks() {
+		let marksTemp = this.state.marks;
+		let marksDestroy = [];
+		marksTemp.forEach(function(mark) {
+			if (mark.isChecked === 'on') {
+				marksDestroy.push(mark);
+			}
+		});
+		deleteMarks(marksDestroy)
+	}
+
 	render() {
-		const {isLoading, invalid, errors} = this.state;
-		const {marks} = this.state;
+		const {isLoading, invalid, errors, marks} = this.state;
 		const ROW = marks.map((mark, key) => <tr key={key}>
+						<td className="collapsing">
+							<div className="ui fitted slider checkbox">
+								<input
+									id={mark.id}
+									type="checkbox"
+									name="isChecked"
+									defaultChecked={mark.isChecked}
+									onChange={this.handlerOnChange}
+								 /> <label></label>
+							</div>
+						</td>
 				      <td>
 				      	<input
 				      		id={mark.id}
@@ -320,7 +357,10 @@ class MarksIndex extends Component {
 								>
 									<i className="user icon"></i> Add Student
 								</div>
-								<div className="ui small negative button">
+								<div
+									className="ui small negative button"
+									onClick={this.handlerRemoveMarks}
+								>
 									Remove All
 								</div>
 							</th>
@@ -337,7 +377,8 @@ MarksIndex.propTypes = {
 	saveMark: PropTypes.func.isRequired,
 	getMarks: PropTypes.func.isRequired,
 	marks: PropTypes.array.isRequired,
-	addFlashMessages: PropTypes.func.isRequired
+	addFlashMessages: PropTypes.func.isRequired,
+	deleteMarks: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -346,4 +387,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {saveMark, getMarks, addFlashMessages})(MarksIndex);
+export default connect(mapStateToProps, {saveMark, getMarks, addFlashMessages, deleteMarks})(MarksIndex);
