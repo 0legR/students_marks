@@ -22,6 +22,10 @@ class MarksIndex extends Component {
 	}
 
 	componentDidMount()	{
+		this.getMarksUpdateState();
+	}
+
+	getMarksUpdateState() {
 		let self = this;
 		this.props.getMarks()
 		.then(res => this.setState({marks: res.marks}))
@@ -29,6 +33,25 @@ class MarksIndex extends Component {
 			let marksTemp = self.state.marks;
 			marksTemp.forEach(function(mark) {
 				mark['isChecked'] = false;
+				if (mark['current_rating'] === 0 || mark['current_rating'] === null) {
+					mark['current_rating_class'] = "current-rating-0";
+					mark['current_rating'] = "0";
+				}
+				if (mark['current_rating'] < 2 && mark['current_rating'] >= 1) {
+					mark['current_rating_class'] = "current-rating-1";
+				}
+				if (mark['current_rating'] < 3 && mark['current_rating'] >= 2) {
+					mark['current_rating_class'] = "current-rating-2";
+				}
+				if (mark['current_rating'] < 4 && mark['current_rating'] >= 3) {
+					mark['current_rating_class'] = "current-rating-3";
+				}
+				if (mark['current_rating'] < 5 && mark['current_rating'] >= 4) {
+					mark['current_rating_class'] = "current-rating-4";
+				}
+				if (mark['current_rating'] >= 5) {
+					mark['current_rating_class'] = "current-rating-5";
+				}
 			});
 			self.setState({
 				marks: marksTemp
@@ -40,7 +63,6 @@ class MarksIndex extends Component {
 		let marksTemp = this.state.marks;
 
 		marksTemp.forEach(function(mark) {
-			
 			if (String(mark.id) === String(e.target.id) || !mark.id) {
 				let name = String(e.target.name);
 				if (e.target.type === 'checkbox') {
@@ -65,6 +87,7 @@ class MarksIndex extends Component {
 
 	handlerOnSubmit(e) {
 		e.preventDefault();
+		let self = this;
 		if (this.isValid()) {
 			const {marks} = this.state;
 			this.setState({errors: {}, isLoading: true});
@@ -75,7 +98,35 @@ class MarksIndex extends Component {
 						text: "You have created/updated new student`s mark successful"
 					});
 			this.props.getMarks()
-				.then(res => this.setState({marks: res.marks}));
+				.then(res => this.setState({marks: res.marks}))
+				.then(function() {
+					let marksTemp = self.state.marks;
+					marksTemp.forEach(function(mark) {
+						mark['isChecked'] = false;
+						if (mark['current_rating'] === 0 || mark['current_rating'] === null) {
+							mark['current_rating_class'] = "current-rating-0";
+							mark['current_rating'] = "0";
+						}
+						if (mark['current_rating'] < 2 && mark['current_rating'] >= 1) {
+							mark['current_rating_class'] = "current-rating-1";
+						}
+						if (mark['current_rating'] < 3 && mark['current_rating'] >= 2) {
+							mark['current_rating_class'] = "current-rating-2";
+						}
+						if (mark['current_rating'] < 4 && mark['current_rating'] >= 3) {
+							mark['current_rating_class'] = "current-rating-3";
+						}
+						if (mark['current_rating'] < 5 && mark['current_rating'] >= 4) {
+							mark['current_rating_class'] = "current-rating-4";
+						}
+						if (mark['current_rating'] >= 5) {
+							mark['current_rating_class'] = "current-rating-5";
+						}
+					});
+					self.setState({
+						marks: marksTemp
+					})
+				})
 					// this.context.router.history.push('/users/types/');
 				})
 				.catch(
@@ -88,6 +139,7 @@ class MarksIndex extends Component {
 	handlerAddRow() {
 		let marksTemp = this.state.marks;
 		marksTemp.push({
+			id: (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase(),
 			all_name: "",
 			visually: "",
 			code: "",
@@ -117,16 +169,15 @@ class MarksIndex extends Component {
 		});
 		this.props.deleteMarks(marksDestroy)
 		.then(() => {
-					this.props.addFlashMessages({
-						type: "success",
-						text: "You have deleted student`s marks successful"
-					});
+			this.props.addFlashMessages({
+				type: "success",
+				text: "You have deleted student`s marks successful"
+			});
 			this.props.getMarks()
 			.then(res => this.setState({marks: res.marks}));
-				// this.context.router.history.push('/users/types/');
-			})
-			.catch(
-				(error) => this.setState({errors: error.response.data, isLoading: false})
+		})
+		.catch(
+			(error) => this.setState({errors: error.response.data, isLoading: false})
 		);
 	}
 
@@ -156,7 +207,7 @@ class MarksIndex extends Component {
 				      		onKeyUp={(e) => e.target.value = e.target.value.match(/^[a-zA-Z ]+$/)}
 				      	/>
 				      </td>
-				      <td>
+				      <td className={mark.current_rating_class}>
 				      	{mark.current_rating}
 				      </td>
 				      <td>
@@ -334,6 +385,7 @@ class MarksIndex extends Component {
 					<table className="ui compact celled definition table">
 					  <thead className="full-width">
 					    <tr>
+					      <th colSpan="1"></th>
 					      <th colSpan="1">{main.head.firstColumn}</th>
 					      <th colSpan="1">{main.head.secondColumn}</th>
 					      <th colSpan="1">{main.head.thirdColumn}</th>
@@ -360,19 +412,19 @@ class MarksIndex extends Component {
 						<tr>
 							<th>
 								<button className="ui small primary button" disabled={isLoading || invalid }>
-									Save All
+									{main.buttons.save}
 								</button>
 								<div
 									className="ui right floated small secondary labeled icon button"
 									onClick={this.handlerAddRow}
 								>
-									<i className="user icon"></i> Add Student
+									<i className="user icon"></i> {main.buttons.add}
 								</div>
 								<div
 									className="ui small negative button"
 									onClick={this.handlerRemoveMarks}
 								>
-									Remove All
+									{main.buttons.remove}
 								</div>
 							</th>
 						</tr>

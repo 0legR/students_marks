@@ -178,6 +178,30 @@
 	display: block;
 	margin-top: 5px;
 }
+
+.current-rating-0 {
+	background-color: rgba(175, 238, 238, 1);
+}
+
+.current-rating-1 {
+	background-color: rgba(255, 0, 0, 1);
+}
+
+.current-rating-2 {
+	background-color: rgba(255, 165, 0, 1);
+}
+
+.current-rating-3 {
+	background-color: rgba(255, 255, 0, 1);
+}
+
+.current-rating-4 {
+	background-color: rgba(0, 255, 0, 1);
+}
+
+.current-rating-5 {
+	background-color: rgba(255, 0, 255, 1);
+}
 /*.marks-index-container .ui.table thead th {
 	font-weight: 300;
 }

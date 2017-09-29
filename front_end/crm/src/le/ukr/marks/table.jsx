@@ -14,5 +14,10 @@ export default {
 		twelfthColumn: "Презентація на Англійській",
 		thirteenthColumn: "GIT",
 		fourteenthColumn: "Примітки",
+	},
+	buttons: {
+		save: "Зберегти Все",
+		add: "Додати Студента",
+		remove: "Видалити Все"
 	}
 }

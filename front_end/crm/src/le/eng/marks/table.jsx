@@ -14,5 +14,10 @@ export default {
 		twelfthColumn: "English PD",
 		thirteenthColumn: "GIT",
 		fourteenthColumn: "Notes",
+	},
+	buttons: {
+		save: "Save All",
+		add: "Add Student",
+		remove: "Remove All"
 	}
 }
