@@ -48,7 +48,7 @@ class StudentsController extends Controller
                 'notes'
             ]);
 
-            $student = Student::updateOrCreate($studentAttributes);
+            $student = Student::updateOrCreate(['id' => $mark['id']], $studentAttributes);
 
             $studentAttributesForSumm = array_only($mark, [
             	'visually',
