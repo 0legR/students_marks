@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {addFlashMessages} from '../../actions/flashMessages';
 import Table from './Table';
+import Errors from './errors';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -153,21 +154,13 @@ class MarksIndex extends Component {
 
 	render() {
 		const {isLoading, invalid, errors, marks} = this.state;
-		
 		return (
 			<div className="marks-outside-container">
 				<form onSubmit={this.handlerOnSubmit}>
 					<div className="marks-index-container">
-						<div className="errors-block">{errors.allName && <span className="ui negative message">{errors.allName}</span>}</div>
-						<div className="errors-block">{errors.currentRating && <span className="ui negative message">{errors.currentRating}</span>}</div>
-						<div className="errors-block">{errors.visually && <span className="ui negative message">{errors.visually}</span>}</div>
-						<div className="errors-block">{errors.code && <span className="ui negative message">{errors.code}</span>}</div>
-						<div className="errors-block">{errors.explanation && <span className="ui negative message">{errors.explanation}</span>}</div>
-						<div className="errors-block">{errors.stability && <span className="ui negative message">{errors.stability}</span>}</div>
-						<div className="errors-block">{errors.presentation && <span className="ui negative message">{errors.presentation}</span>}</div>
-						<div className="errors-block">{errors.questions && <span className="ui negative message">{errors.questions}</span>}</div>
-						<div className="errors-block">{errors.favoritePlace && <span className="ui negative message">{errors.favoritePlace}</span>}</div>
-						<div className="errors-block">{errors.favoritism && <span className="ui negative message">{errors.favoritism}</span>}</div>
+						<Errors
+							errors={errors}
+						/>
 						<Table
 							marks={marks}
 							isLoading={isLoading}
