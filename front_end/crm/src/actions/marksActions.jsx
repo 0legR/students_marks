@@ -19,7 +19,7 @@ function setMarksToRedux(marks) {
 }
 
 export function deleteMarks(marks) {
-	return dispatch => axios.delete('/api/students')
+	return dispatch => axios.delete('/api/students', {data: {marks}})
 		.then(res => res.data)
 		.then(data => dispatch(destroyMarksFromRedux(marks)));
 }

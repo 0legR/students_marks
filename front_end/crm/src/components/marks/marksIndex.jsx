@@ -67,7 +67,6 @@ class MarksIndex extends Component {
 		e.preventDefault();
 		if (this.isValid()) {
 			const {marks} = this.state;
-			console.log(marks);
 			this.setState({errors: {}, isLoading: true});
 			this.props.saveMark({marks})
 				.then(() => {
@@ -116,7 +115,19 @@ class MarksIndex extends Component {
 				marksDestroy.push(mark);
 			}
 		});
-		deleteMarks(marksDestroy)
+		this.props.deleteMarks(marksDestroy)
+		.then(() => {
+					this.props.addFlashMessages({
+						type: "success",
+						text: "You have deleted student`s marks successful"
+					});
+			this.props.getMarks()
+			.then(res => this.setState({marks: res.marks}));
+				// this.context.router.history.push('/users/types/');
+			})
+			.catch(
+				(error) => this.setState({errors: error.response.data, isLoading: false})
+		);
 	}
 
 	render() {

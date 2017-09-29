@@ -68,7 +68,7 @@ class StudentsController extends Controller
                 $student->columns_amount = $result['amountColumns'];
                 $student->current_rating = $result['columnSumm'] / $result['amountColumns'];
             }
-            
+
             $student->save();
         }
 
@@ -78,6 +78,18 @@ class StudentsController extends Controller
     public function sendStudents() {
         $students = Student::all();
         return response()->json($students);
+    }
+
+    public function destroyStudents(Request $request)
+    {
+        try {
+            foreach ($request->marks as $mark) {
+                Student::destroy($mark['id']);            
+            }
+        } catch(\Illuminate\Database\QueryException $exception) {
+                return response()->json($exception->errorInfo, 422);
+        }
+        return response()->json(['success' => true]);
     }
 
     protected function summColumns($attributes)

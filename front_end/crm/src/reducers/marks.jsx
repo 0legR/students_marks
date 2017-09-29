@@ -5,9 +5,11 @@ export default function marks (state = [], action = {}) {
 		case SET_MARKS_TO_REDUX:
 			return action.marks;
 		case DESTROY_MARKS:
-			return action.marks.forEach(
-				mark => state.filter(item => item.id !== mark.id)
-			);
+			let marks;
+			action.marks.forEach(function(mark) {
+				marks = state.filter(item => item.id !== mark.id);
+			});
+			return marks;
 		default: return state;
 	}
 };

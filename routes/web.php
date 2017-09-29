@@ -29,6 +29,7 @@ Route::post('/api/auth', 'Users\UserController@authUser');
 // ------------------------students-------------------------------------
 Route::post('/api/students', 'StudentsController@storeStudent');
 Route::get('/api/students', 'StudentsController@sendStudents');
+Route::delete('/api/students', 'StudentsController@destroyStudents');
 
 
 
