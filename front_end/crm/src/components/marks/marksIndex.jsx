@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {addFlashMessages} from '../../actions/flashMessages';
 import Table from './Table';
 import Errors from './errors';
+import classnames from 'classnames';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -25,8 +26,12 @@ class MarksIndex extends Component {
 
 	componentDidMount()	{
 		this.props.getMarks()
-		.then(res => this.setState({marks: res.marks}))
+		.then(res => this.setState({marks: res.marks, isLoading: false}))
 		.then(this.markUpdateToRedux);
+	}
+	
+	componentWillMount() {
+		this.setState({isLoading: true});
 	}
 
 	markUpdateToRedux() {
@@ -156,7 +161,10 @@ class MarksIndex extends Component {
 		const {isLoading, invalid, errors, marks} = this.state;
 		return (
 			<div className="marks-outside-container">
-				<form onSubmit={this.handlerOnSubmit}>
+				<form
+					className={classnames("ui", "form", {loading: this.state.isLoading})}
+					onSubmit={this.handlerOnSubmit}
+				>
 					<div className="marks-index-container">
 						<Errors
 							errors={errors}
