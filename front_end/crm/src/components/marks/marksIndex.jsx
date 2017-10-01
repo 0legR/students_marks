@@ -29,7 +29,7 @@ class MarksIndex extends Component {
 		.then(res => this.setState({marks: res.marks, isLoading: false}))
 		.then(this.markUpdateToRedux);
 	}
-	
+
 	componentWillMount() {
 		this.setState({isLoading: true});
 	}
@@ -70,9 +70,14 @@ class MarksIndex extends Component {
 			if (String(mark.id) === String(e.target.id) || !mark.id) {
 				let name = String(e.target.name);
 				if (e.target.type === 'checkbox') {
-					mark[`${name}`] = e.target.checked;
+					if (mark[`${name}`] !== "on") {
+						mark[`${name}`] = e.target.checked;
+					}else{
+						mark[`${name}`] = false;
+					}
+				}else {
+					mark[`${name}`] = e.target.value;
 				}
-				mark[`${name}`] = e.target.value;
 			}
 		});
 		this.setState({
@@ -138,7 +143,7 @@ class MarksIndex extends Component {
 		let marksTemp = this.state.marks;
 		let marksDestroy = [];
 		marksTemp.forEach(function(mark) {
-			if (mark.isChecked === 'on') {
+			if (mark.isChecked) {
 				marksDestroy.push(mark);
 			}
 		});
