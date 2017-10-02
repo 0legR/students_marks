@@ -208,6 +208,11 @@
 	padding: 0;
 	width: inherit;
 }
+
+.float-input {
+	width: 40px !important;
+}
+
 /*.marks-index-container .ui.table thead th {
 	font-weight: 300;
 }

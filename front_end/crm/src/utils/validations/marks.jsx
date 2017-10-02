@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 export default function validateInput(mark) {
   let errors = {};
   let alphaExp = /^[a-zA-Z ]+$/;
-  let numberExp = /^[0-5]$/;
+  let numberExp = /^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/;
   let symbolsExp = /^[!@#$%^&*()_+=<>|./?,-]/;
   mark.forEach(function(data) {
     let visually = String(data.visually);
@@ -17,7 +17,11 @@ export default function validateInput(mark) {
     let favorite_place = String(data.favorite_place);
     let favoritism = String(data.favoritism);
     let all_name = String(data.all_name);
-
+    let print_out = String(data.print_out);
+    let english_pd = String(data.english_pd);
+    let git = String(data.git);
+    // let notes = String(data.notes);
+console.log(data.print_out);
     if (Validator.isEmpty(all_name)) {
     errors.all_name = 'The type`s name field is required';
     }
@@ -29,8 +33,8 @@ export default function validateInput(mark) {
       errors.all_name = 'The All Name field should consist only english alphabet an space';
     }
 
-    if (!Validator.isEmpty(visually) && visually !== "null" && !visually) {
-      if (!visually.match(numberExp)) {
+    if (!Validator.isEmpty(visually)) {
+      if (!visually.match(numberExp)) {console.log(typeof(visually));
         errors.visually = 'The Visually field is not Integer or not between 0-5';
       }
     }
@@ -76,21 +80,18 @@ export default function validateInput(mark) {
         errors.favoritism = 'The Favoritism field is not Symbol';
       }
     }
-    // if (!Validator.isNumber(data.print_out, [{min: 1, max: 10}])) {
-    //   errors.print_out = 'The Print Out field is not Integer or must be between 1-10';
-    // }
 
-    // if (!Validator.isNumber(data.english_pd, [{min: 1, max: 10}])) {
-    //   errors.english_pd = 'The English PD field is not Integer or must be between 1-10';
-    // }
+    if (!Validator.isBoolean(print_out)) {
+      errors.print_out = 'The Print Out field is not Boolean';
+    }
 
-    // if (!Validator.isNumber(data.git, [{min: 1, max: 10}])) {
-    //   errors.git = 'The GIT field is not Integer or must be between 1-10';
-    // }
+    if (!Validator.isBoolean(english_pd)) {
+      errors.english_pd = 'The English PD field is not Boolean';
+    }
 
-    // if (!Validator.isLength(data.notes, {min: 4, max: 60})) {
-    //   errors.notes = 'The Notes field must has length between 4-60 letters';
-    // }  
+    if (!Validator.isBoolean(git)) {
+      errors.git = 'The GIT field is not Boolean';
+    }  
   });
   
 

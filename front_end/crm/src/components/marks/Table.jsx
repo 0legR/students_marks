@@ -3,6 +3,7 @@ import main from '../../le/ukr/marks/table';
 
 export default class Table extends Component {
 	render() {
+		const regexFloat = /^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/;
 		const ROW = this.props.marks.map((mark, key) => <tr key={key}>
 			<td className="collapsing">
 				<div className="ui fitted slider checkbox">
@@ -30,7 +31,7 @@ export default class Table extends Component {
 			<td className={mark.current_rating_class}>
 				{mark.current_rating}
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -39,12 +40,10 @@ export default class Table extends Component {
 					name="visually"
 					onBlur=""
 					ref={(input) => this.visually = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -53,12 +52,10 @@ export default class Table extends Component {
 					name="code"
 					onBlur=""
 					ref={(input) => this.code = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -67,12 +64,10 @@ export default class Table extends Component {
 					name="explanation"
 					onBlur=""
 					ref={(input) => this.explanation = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -81,12 +76,10 @@ export default class Table extends Component {
 					name="stability"
 					onBlur=""
 					ref={(input) => this.stability = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -95,12 +88,10 @@ export default class Table extends Component {
 					name="presentation"
 					onBlur=""
 					ref={(input) => this.presentation = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -109,12 +100,10 @@ export default class Table extends Component {
 					name="questions"
 					onBlur=""
 					ref={(input) => this.questions = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="number"
@@ -123,12 +112,10 @@ export default class Table extends Component {
 					name="favorite_place"
 					onBlur=""
 					ref={(input) => this.favorite_place = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[0-5]$/)}
-					max="5"
-					min="0"
+					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
 			</td>
-			<td>
+			<td className="float-input">
 				<input
 					id={mark.id}
 					type="text"
@@ -140,41 +127,38 @@ export default class Table extends Component {
 					onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]/)}
 				/>
 			</td>
-			<td>
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.print_out}
-					onChange={this.props.handlerOnChange}
-					name="print_out"
-					onBlur=""
-					ref={(input) => this.print_out = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]/)}
-				/>
+			<td className="collapsing">
+				<div className="ui fitted slider checkbox">
+					<input
+						id={mark.id}
+						type="checkbox"
+						name="print_out"
+						defaultChecked={mark.print_out}
+						onChange={this.props.handlerOnChange}
+					 /> <label></label>
+				</div>
 			</td>
-			<td>
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.english_pd}
-					onChange={this.props.handlerOnChange}
-					name="english_pd"
-					onBlur=""
-					ref={(input) => this.english_pd = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]/)}
-				/>
+			<td className="collapsing">
+				<div className="ui fitted slider checkbox">
+					<input
+						id={mark.id}
+						type="checkbox"
+						name="english_pd"
+						defaultChecked={mark.english_pd}
+						onChange={this.props.handlerOnChange}
+					 /> <label></label>
+				</div>
 			</td>
-			<td>
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.git}
-					onChange={this.props.handlerOnChange}
-					name="git"
-					onBlur=""
-					ref={(input) => this.git = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]/)}
-				/>
+			<td className="collapsing">
+				<div className="ui fitted slider checkbox">
+					<input
+						id={mark.id}
+						type="checkbox"
+						name="git"
+						defaultChecked={mark.git}
+						onChange={this.props.handlerOnChange}
+					 /> <label></label>
+				</div>
 			</td>
 			<td>
 				<input

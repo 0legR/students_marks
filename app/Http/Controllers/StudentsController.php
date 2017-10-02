@@ -12,17 +12,17 @@ class StudentsController extends Controller
     {
     	$rules = [
     		'all_name' => 'required|regex:/^[a-zA-Z ]+$/',
-    		'visually' => 'nullable|regex:/^[0-5]$/',
-    		'code' => 'nullable|regex:/^[0-5]$/',
-    		'explanation' => 'nullable|regex:/^[0-5]$/',
-    		'stability' => 'nullable|regex:/^[0-5]$/',
-    		'presentation' => 'nullable|regex:/^[0-5]$/',
-    		'questions' => 'nullable|regex:/^[0-5]$/',
-    		'favorite_place' => 'nullable|regex:/^[0-5]$/',
+    		'visually' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'code' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'explanation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'stability' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'presentation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'questions' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		'favorite_place' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
     		'favoritism' => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/',
-    		'print_out' => 'nullable|string',
-    		'english_pd' => 'nullable|string',
-    		'git' => 'nullable|string',
+    		'print_out' => 'nullable|boolean',
+    		'english_pd' => 'nullable|boolean',
+    		'git' => 'nullable|boolean',
     		'notes' => 'nullable|string'
     	];
 

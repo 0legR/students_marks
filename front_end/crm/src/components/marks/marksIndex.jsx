@@ -129,9 +129,9 @@ class MarksIndex extends Component {
 			questions: "",
 			favorite_place: "",
 			favoritism: "",
-			print_out: "",
-			english_pd: "",
-			git: "",
+			print_out: false,
+			english_pd: false,
+			git: false,
 			notes: ""
 		});
 		this.setState({

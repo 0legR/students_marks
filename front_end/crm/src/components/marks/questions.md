@@ -14,9 +14,9 @@ add columns
 functionality look through 
 
 
-columns with float
+<!-- columns with float -> done -->
 
-else checkbox git print so on
+<!-- else checkbox git print so on -> done -->
 
 
 
