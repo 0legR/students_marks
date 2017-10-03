@@ -21,7 +21,7 @@ class Settings extends Component {
 					<div className="ui middle aligned divided list">
 						<ul>
 							<li><Link to="/users/types">{settings.directorySettings.typeLink}</Link></li>
-							<li><Link to="/marks">{settings.directorySettings.markLink}</Link></li>
+							<li><Link to="/marks/settings">{settings.directorySettings.markLink}</Link></li>
 						</ul>
 					</div>
 				</div>

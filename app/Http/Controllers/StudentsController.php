@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class StudentsController extends Controller
 {
@@ -105,5 +108,86 @@ class StudentsController extends Controller
 
     	$columnSumm = array_sum($attrForSumm);
     	return $amountColumns !== 0 ? compact('columnSumm', 'amountColumns') : false;
+    }
+
+    public function sendStudentsSettings() {
+        $student = new Student();
+        
+        $columns = Schema::getColumnListing($student->getTable());
+
+        $exceptNames = [];
+        array_push($exceptNames, array_search("columns_summ", $columns),
+                                    array_search("columns_amount", $columns),
+                                    array_search("created_at", $columns),
+                                    array_search("updated_at", $columns),
+                                    array_search("id", $columns)
+        );
+        foreach ($exceptNames as $name) {
+            if (false !== $name) {
+                unset($columns[$name]);
+            }
+        }
+
+        $settings = new Collection();
+        foreach ($columns as $key => $value) {
+            $settings->push(['name' => $value, 'type' => Schema::getColumnType('students', $value)]);
+        }
+
+        return response()->json(compact('settings'));
+    }
+
+    public function storeColumn(Request $request) {
+        $rules = [
+            'name' => 'required|regex:/^[a-z_]+$/',
+            'type' => 'required_with:name|regex:/^[a-z_]+$/'
+        ];
+
+        $validator = Validator::make(['name' => $request->name, 'type' => $request->type], $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if (Schema::hasColumn('students', $request->name)) {
+
+        } else {
+            try {
+                Schema::table('students', function($table) use ($request){
+                    $table->{$request->type}($request->name)->nullable();
+                });
+            } catch(\Illuminate\Database\QueryException $exception) {
+                return response()->json($exception->errorInfo, 422);
+            }
+
+            return response()->json(['success' => true]);
+        }
+    }
+
+    public function getColumn($identifier) {
+        $student = new Student();
+        
+        $columns = Schema::getColumnListing($student->getTable());
+
+        $exceptNames = [];
+        array_push($exceptNames, array_search("columns_summ", $columns),
+                                    array_search("columns_amount", $columns),
+                                    array_search("created_at", $columns),
+                                    array_search("updated_at", $columns),
+                                    array_search("id", $columns)
+        );
+        foreach ($exceptNames as $name) {
+            if (false !== $name) {
+                unset($columns[$name]);
+            }
+        }
+
+        $settings = new Collection();
+
+        foreach ($columns as $key => $value) {
+            if ($columns[$key] === $identifier) {
+                $settings->push(['name' => $value, 'type' => Schema::getColumnType('students', $value)]);
+            }
+        }
+        return response()->json(compact('settings'));
     }
 }

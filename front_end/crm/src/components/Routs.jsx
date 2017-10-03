@@ -11,7 +11,8 @@ import Managers from './users/Managers';
 import AdministratorsCreate from './users/administrators/AdministratorsCreate';
 import UserTypesIndex from './users/usertypes/UserTypesIndex';
 import UserTypeFormPage from './users/usertypes/UserTypeFormPage';
-
+import MarksSettings from './marks/MarksSettingsIndex';
+import MarksSettingsFormPage from './marks/MarksSettingsFormPage';
 
 const Routs = () => 
 	<Router>
@@ -19,7 +20,9 @@ const Routs = () =>
 			<Route path="/" exact component={Main} />
 			<Route path="/home" component={requireAuth(Home)} />
 			<Route path="/settings" component={requireAuth(Settings)} />
-			<Route path="/marks" component={requireAuth(Marks)} />
+			<Route path="/marks" exact component={requireAuth(Marks)} />
+			<Route path="/marks/settings" exact component={requireAuth(MarksSettings)} />
+			<Route path="/marks/settings/create" exact component={requireAuth(MarksSettingsFormPage)} />
 			<Route path="/users/administrators" exact component={requireAuth(Administrators)} />
 			<Route path="/users/administrators/create" exact component={requireAuth(AdministratorsCreate)} />
 			<Route path="/users/managers" component={requireAuth(Managers)} />

@@ -2,7 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-export const TextFieldGroup = ({field, value, label, error, type, onChange, isUserExists}) => 
+export const TextFieldGroup = ({field, value, label, error, type, onChange, isUserExists, onKeyUp}) => 
 <div>
 {error && <span className="inline field error text-field-group">{error}</span>}
 <div className={classnames("field", {"field error": error})}>
@@ -14,6 +14,7 @@ export const TextFieldGroup = ({field, value, label, error, type, onChange, isUs
 			type={type}
 			name={field}
 			className="ui input"
+			onKeyUp={onKeyUp}
 		/>
 		</div>
 </div>;
@@ -25,7 +26,8 @@ TextFieldGroup.propTypes = {
 	type: PropTypes.string.isRequired,
 	onChange: PropTypes.func.isRequired,
 	error: PropTypes.string,
-	isUserExists: PropTypes.func
+	isUserExists: PropTypes.func,
+	onKeyUp: PropTypes.func,
 };
 
 TextFieldGroup.defaultProps = {

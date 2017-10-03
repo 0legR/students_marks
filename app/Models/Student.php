@@ -24,4 +24,5 @@ class Student extends Model
         'columns_summ',
         'columns_amount',
     ];
+
 }

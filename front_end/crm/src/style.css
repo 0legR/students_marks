@@ -220,4 +220,7 @@
 .marks-index-container .ui.table {
 	font-size: 0.87em;
 }*/
-
+/*---------------------------------------marks-settings Section----------------*/
+.marks-settings-outside-container {
+	margin-top: 1em;
+}
