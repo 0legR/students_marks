@@ -5,14 +5,29 @@ export default function markSettings(state = [], action = {}) {
 		case SET_MARK_SETTINGS_TO_REDUX:
 			return action.markSettings;
 		case SET_ONE_MARKSET_TO_REDUX:
-			const index = state.findIndex(item => item.name === action.markSet.name);
-			if (index > -1) {
-				return state.map(item => {
-					if (item.name === action.markSet.name) {
-						return action.markSet;
-					}
-					return item;
-				})
+			const index = function(state) {
+				for(let prop in state) {
+					return state[prop].findIndex(item => item.name === action.markSet.name);
+				}
+			};
+			if (index(state) > -1) {
+				let settings = [];
+				let itemElse = [];
+				for(let prop in state) {
+					state[prop].map(item => {
+						if (item.name === action.markSet.name) {
+							return settings = action.markSet;
+						} else {
+							return itemElse = item;
+						}
+					});
+				};
+
+				if (settings.length !== 0) {
+					return settings;
+				} else {
+					return itemElse;
+				}
 			} else {
 				return [
 					...state,

@@ -148,8 +148,36 @@ class StudentsController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (Schema::hasColumn('students', $request->name)) {
+        if (Schema::hasColumn('students', $request->prevName)) {
+            try {
+                if ($request->prevName !== $request->name) {
+                    $validator = Validator::make(['name' => $request->name, 'type' => $request->type], $rules);
 
+                    if ($validator->fails()) {
+                        return response()->json($validator->errors(), 422);
+                    }
+
+                    Schema::table('students', function($table) use ($request){
+                        $table->renameColumn($request->prevName, $request->name);
+                    });
+                }
+                if ($request->prevType !== $request->type) {
+                    $validator = Validator::make(['name' => $request->name, 'type' => $request->type], $rules);
+
+                    if ($validator->fails()) {
+                        return response()->json($validator->errors(), 422);
+                    }
+
+                    Schema::table('students', function($table) use ($request){
+                       
+                        $table->{$request->type}($request->name)->nullable()->change();
+                    });
+                }
+
+            } catch(\Illuminate\Database\QueryException $exception) {
+                return response()->json($exception->errorInfo, 422);
+            }
+            return response()->json(['success' => true]);
         } else {
             try {
                 Schema::table('students', function($table) use ($request){
@@ -158,7 +186,6 @@ class StudentsController extends Controller
             } catch(\Illuminate\Database\QueryException $exception) {
                 return response()->json($exception->errorInfo, 422);
             }
-
             return response()->json(['success' => true]);
         }
     }

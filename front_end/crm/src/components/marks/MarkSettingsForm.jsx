@@ -9,9 +9,10 @@ export default class MarkSettingsForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: this.props.type ? this.props.markSettings.name : "",
-			type: this.props.type ? this.props.markSettings.type : "",
-			isUpdate: false,
+			name: "",
+			type: "",
+			prevName: "",
+			prevType: "",
 			errors: {},
 			isLoading: false,
 			invalid: false
@@ -21,7 +22,16 @@ export default class MarkSettingsForm extends Component {
 		this.handlerOnChange = this.handlerOnChange.bind(this);
 		this.handlerIsTypeExists = this.handlerIsTypeExists.bind(this);
 	}
-	
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			name: nextProps.markSettings.name,
+			type: nextProps.markSettings.type,
+			prevName: nextProps.markSettings.name,
+			prevType: nextProps.markSettings.type
+		});
+	}
+
 	handlerOnChange(e) {
 		if (this.state.name === "" && this.state.type === "") {
 			this.setState({invalid: false});
@@ -64,9 +74,9 @@ export default class MarkSettingsForm extends Component {
 	handlerOnSubmit(e) {
 		e.preventDefault();
 		if (this.isValid()) {
-			const {name, type} = this.state;
+			const {name, type, prevName, prevType} = this.state;
 			this.setState({errors: {}, isLoading: true});
-			this.props.saveMarkSettings({name, type})
+			this.props.saveMarkSettings({name, type, prevName, prevType})
 				.then(() => {
 					this.props.addFlashMessages({
 						type: "success",
@@ -81,7 +91,6 @@ export default class MarkSettingsForm extends Component {
 	}
 	render() {
 		const {name, type, errors, isLoading, invalid} = this.state;
-
 		return (
 			<form className={classnames("ui", "form signup", {loading: this.state.isLoading})} onSubmit={this.handlerOnSubmit}>
 				<h1>{settings.formCreate.header}</h1>

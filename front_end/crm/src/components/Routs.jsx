@@ -23,6 +23,7 @@ const Routs = () =>
 			<Route path="/marks" exact component={requireAuth(Marks)} />
 			<Route path="/marks/settings" exact component={requireAuth(MarksSettings)} />
 			<Route path="/marks/settings/create" exact component={requireAuth(MarksSettingsFormPage)} />
+			<Route path="/marks/settings/update/:name" exact component={requireAuth(MarksSettingsFormPage)} />
 			<Route path="/users/administrators" exact component={requireAuth(Administrators)} />
 			<Route path="/users/administrators/create" exact component={requireAuth(AdministratorsCreate)} />
 			<Route path="/users/managers" component={requireAuth(Managers)} />

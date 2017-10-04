@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {SET_MARK_SETTINGS_TO_REDUX, SET_ONE_MARKSET_TO_REDUX} from './types';
+import {SET_MARK_SETTINGS_TO_REDUX, SET_ONE_MARKSET_TO_REDUX, DESTROY_MARK_SET} from './types';
 
 export function getMarkSettings() {
 	return dispatch => axios.get('/api/students/settings')
@@ -15,9 +15,9 @@ function setMarkSettingsToRedux(markSettings) {
 }
 
 export function getOneMarkSet(name) {
-	return dispatch => axios.get(`/api/types/${name}`)
+	return dispatch => axios.get(`/api/students/settings/${name}`)
 		.then(res => res.data)
-		.then(data => dispatch(setOneMarkSetToRedux(data.mark)));
+		.then(data => dispatch(setOneMarkSetToRedux(data.settings[0])));
 }
 
 function setOneMarkSetToRedux(markSet) {
@@ -37,4 +37,17 @@ export function updateMarkSettings(settingsData) {
 
 export function isMarkSettingsExists(identifier) {
 	return dispatch => axios.get(`/api/students/settings/${identifier}`);
+}
+
+export function deleteMarkSettings(name) {
+	return dispatch => axios.delete(`/api/students/settings/${name}`)
+		.then(res => res.data)
+		.then(data => dispatch(destroyMarkSettings(name)));
+}
+
+function destroyMarkSettings(name) {
+	return {
+		type: DESTROY_MARK_SET,
+		name
+	};
 }

@@ -15,30 +15,34 @@ class MarkSettingsFormPage extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.match.params);
 		if (this.props.match.params.name) {
 			this.props.getOneMarkSet(this.props.match.params.name);
 		}
 	}
 
-	saveMarkSettings = ({name, type}) => {console.log('here');
-		// if (name) {
-		// 	return this.props.updateMarkSettings({name, type})
-		// 		.then(() => {this.setState({redirect: true})});
-		// } else {
+	saveMarkSettings = ({name, type, prevName, prevType}) => {
+		if (prevName !== "") {
+			return this.props.updateMarkSettings({name, type, prevName, prevType})
+				.then(() => {this.setState({redirect: true})});
+		} else {
 			return this.props.markSettingsRequest({name, type})
 				.then(() => {this.setState({redirect: true})});
-		// }
+		}
 	}
 
-	render () {
+	render() {
+		let settings = {};
+		for(let prop in this.props.markSettings) {
+			settings[prop] = this.props.markSettings[prop];
+		}
 		return (
 			<div>
-				{this.state.redirect ? <Redirect to="/users/types" /> :
+				{this.state.redirect ? <Redirect to="/marks/settings" /> :
 					<MarkSettingsForm
 						addFlashMessages={this.props.addFlashMessages}
 						saveMarkSettings={this.saveMarkSettings}
 						isMarkSettingsExists={this.props.isMarkSettingsExists}
+						markSettings={settings}
 					/>}
 			</div>
 		);
@@ -47,7 +51,7 @@ class MarkSettingsFormPage extends Component {
 
 MarkSettingsFormPage.propTypes = {
 	markSettingsRequest: PropTypes.func.isRequired,
-	// isTypeExists: PropTypes.func.isRequired,
+	isMarkSettingsExists: PropTypes.func.isRequired,
 	addFlashMessages: PropTypes.func.isRequired,
 	getOneMarkSet: PropTypes.func.isRequired,
 	updateMarkSettings: PropTypes.func.isRequired,
@@ -55,10 +59,10 @@ MarkSettingsFormPage.propTypes = {
 }
 
 function mapStateToProps(state, props) {
-	console.log(state);
 	if (props.match.params.name) {
+		let settings = [state.markSettings];
 		return {
-			markSettings: state.markSettings.find(item => item.name === props.match.params.name)
+			markSettings: settings.find(item => item.name === props.match.params.name)
 		};
 	}
 	return {markSettings: null};

@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import {getMarkSettings} from '../../actions/markSettingsAction';
+import {getMarkSettings, deleteMarkSettings} from '../../actions/markSettingsAction';
 import settings from '../../le/eng/marks/settings';
 
 class MarksSettingsIndex extends Component {
@@ -51,18 +51,18 @@ class MarksSettingsIndex extends Component {
 				} else {
 					resultAll.push(<tr key={prop}>	
 				      <td>
-				      	<Link to={""}>
+				      	<Link to={`/marks/settings/update/${settings.name}`}>
 				      		<div className="usertype-th">{settings.name}</div>
 				      	</Link>
 				      </td>
 				      <td>
-				      	<Link to={""}>
+				      	<Link to={`/marks/settings/update/${settings.name}`}>
 				      		<div className="usertype-th">{settings.type}</div>
 				      	</Link>
 				      </td>
 				      <td>
 				    	<div className="usertype-th-destroy">
-				    		<button className="ui negative basic button" onClick={() => self.deleteUserType("")}>
+				    		<button className="ui negative basic button" onClick={() => self.deleteMarkSettings(settings.name)}>
 					    			<div className="usertype-destroy">
 					    				<i className="trash outline icon"></i>
 					    			</div>
@@ -137,6 +137,7 @@ class MarksSettingsIndex extends Component {
 MarksSettingsIndex.propTypes = {
 	getMarkSettings: PropTypes.func.isRequired,
 	markSettings: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+	deleteMarkSettings: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -145,4 +146,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {getMarkSettings})(MarksSettingsIndex);
+export default connect(mapStateToProps, {getMarkSettings, deleteMarkSettings})(MarksSettingsIndex);

@@ -36,6 +36,7 @@ Route::delete('/api/students', 'StudentsController@destroyStudents');
 Route::get('/api/students/settings', 'StudentsController@sendStudentsSettings');
 Route::post('/api/students/settings', 'StudentsController@storeColumn');
 Route::get('/api/students/settings/{identifier}', 'StudentsController@getColumn');
+Route::put('/api/students/settings/{name}', 'StudentsController@storeColumn');
 
 
 
