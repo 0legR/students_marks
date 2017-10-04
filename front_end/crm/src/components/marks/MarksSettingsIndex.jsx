@@ -20,6 +20,7 @@ class MarksSettingsIndex extends Component {
 		this.handlerOnChange = this.handlerOnChange.bind(this);
 		this.handlerFilter = this.handlerFilter.bind(this);
 		this.handlerOnBlur = this.handlerOnBlur.bind(this);
+		this.handlerDestroy = this.handlerDestroy.bind(this);
 	}
 
 	componentDidMount()	{
@@ -37,7 +38,7 @@ class MarksSettingsIndex extends Component {
 		const {columnName, columnType} = this.state;
 		let resultFilter = [];
 		let resultAll = [];
-		let self = this.props;
+		let self = this;
 
 		for(let prop in this.props.markSettings.settings) {
 
@@ -62,7 +63,7 @@ class MarksSettingsIndex extends Component {
 				      </td>
 				      <td>
 				    	<div className="usertype-th-destroy">
-				    		<button className="ui negative basic button" onClick={() => self.deleteMarkSettings(settings.name)}>
+				    		<button className="ui negative basic button" onClick={() => self.handlerDestroy(settings.name)}>
 					    			<div className="usertype-destroy">
 					    				<i className="trash outline icon"></i>
 					    			</div>
@@ -80,6 +81,20 @@ class MarksSettingsIndex extends Component {
 		this.setState({
 			isLoading: {[e.target.name]: false}
 		});
+	}
+
+	handlerDestroy(nameColumn) {
+		this.props.deleteMarkSettings(nameColumn)
+		.then(() => {
+			this.props.addFlashMessages({
+				type: "success",
+				text: "You have deleted column successful"
+			});
+			this.props.getMarkSettings();
+		})
+		.catch(
+			(error) => this.setState({errors: error.response.data, isLoading: false})
+		);
 	}
 
 	render() {

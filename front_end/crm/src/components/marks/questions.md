@@ -4,9 +4,9 @@
 
 
 
-add columns
+<!-- add columns
  allow add title columns
- 	type : string - checkbox - float -symbol
+ 	type : string - checkbox - float -symbol done admin-->  
 
 
 

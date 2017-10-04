@@ -217,4 +217,16 @@ class StudentsController extends Controller
         }
         return response()->json(compact('settings'));
     }
+
+    public function destroyColumn(Request $request) {
+
+        try {
+            Schema::table('students', function ($table) use ($request) {
+                $table->dropColumn($request->name);
+            });
+        } catch(\Illuminate\Database\QueryException $exception) {
+                return response()->json($exception->errorInfo, 422);
+        }
+        return response()->json(['success' => true]);
+    }
 }

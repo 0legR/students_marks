@@ -1,4 +1,4 @@
-import {SET_MARK_SETTINGS_TO_REDUX, SET_ONE_MARKSET_TO_REDUX} from '../actions/types';
+import {SET_MARK_SETTINGS_TO_REDUX, SET_ONE_MARKSET_TO_REDUX, DESTROY_MARK_SET} from '../actions/types';
 
 export default function markSettings(state = [], action = {}) {
 	switch(action.type) {
@@ -34,6 +34,12 @@ export default function markSettings(state = [], action = {}) {
 					action.markSet
 				];
 			}
+		case DESTROY_MARK_SET:
+			let settings;
+			for(let prop in state) {
+				settings = state[prop].filter(item => item.name !== action.name);
+			}
+			return settings;
 		default: return state;
 	}
 };
