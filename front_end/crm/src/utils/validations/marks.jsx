@@ -33,7 +33,7 @@ console.log(data.print_out);
       errors.all_name = 'The All Name field should consist only english alphabet an space';
     }
 
-    if (!Validator.isEmpty(visually)) {
+    if (!Validator.isEmpty(visually) && visually !== "null" && !visually) {
       if (!visually.match(numberExp)) {console.log(typeof(visually));
         errors.visually = 'The Visually field is not Integer or not between 0-5';
       }

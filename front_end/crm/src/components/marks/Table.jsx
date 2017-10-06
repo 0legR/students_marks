@@ -75,6 +75,8 @@ export default class Table extends Component {
 					<tbody>
 							{ROW}
 					</tbody>
+					<tfoot className="full-width">
+					</tfoot>
 				</table>
 				<table>
 					<tfoot className="full-width">

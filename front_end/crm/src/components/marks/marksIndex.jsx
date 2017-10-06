@@ -82,6 +82,7 @@ class MarksIndex extends Component {
 				}
 			}
 		});
+
 		this.setState({
 			marks: marksTemp
 		});

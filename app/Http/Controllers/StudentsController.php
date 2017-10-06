@@ -13,55 +13,79 @@ class StudentsController extends Controller
 {
     public function storeStudent(Request $request)
     {
+        $settings = Student::columns();
     	$rules = [
-    		'all_name' => 'required|regex:/^[a-zA-Z ]+$/',
-    		'visually' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'code' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'explanation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'stability' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'presentation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'questions' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'favorite_place' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		'favoritism' => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/',
-    		'print_out' => 'nullable|boolean',
-    		'english_pd' => 'nullable|boolean',
-    		'git' => 'nullable|boolean',
-    		'notes' => 'nullable|string'
+    		// 'all_name' => 'required|regex:/^[a-zA-Z ]+$/',
+    		// 'visually' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'code' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'explanation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'stability' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'presentation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'questions' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'favorite_place' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
+    		// 'favoritism' => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/',
+    		// 'print_out' => 'nullable|boolean',
+    		// 'english_pd' => 'nullable|boolean',
+    		// 'git' => 'nullable|boolean',
+    		// 'notes' => 'nullable|string'
     	];
 
+                
+            
         foreach ($request->marks as $mark) {
+            $floatColumnsNames = [];
+            foreach ($settings as $set) {
+                if (array_key_exists($set['name'], $mark)) {
+                    if ($set['type'] === 'float') {
+                        $rules = [
+                            $set['name'] => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/'
+                        ];
+                        $floatColumnsNames = [$set['name']];
+                    }
+                    if ($set['type'] === 'string' && $set['name'] === 'all_name') {
+                        $rules = [
+                            $set['name'] => 'required|regex:/^[a-zA-Z ]+$/'
+                        ];
+                    }
+                    if ($set['type'] === 'string') {
+                        $rules = [
+                            $set['name'] => 'nullable|string'
+                        ];
+                    }
+                    if ($set['type'] === 'string' && $set['name'] === 'favoritism') {
+                        $rules = [
+                            $set['name'] => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/'
+                        ];
+                    }
+                    if ($set['type'] === 'boolean') {
+                        $rules = [
+                            $set['name'] => 'nullable|boolean'
+                        ];
+                    }
+                }
+            }
+
             $validator = Validator::make($mark, $rules);
 
             if ($validator->fails()) {
             	return response()->json($validator->errors(), 422);
             }
-            $studentAttributes = array_only($mark, [
-                'visually',
-                'code',
-                'explanation',
-                'stability',
-                'presentation',
-                'questions',
-                'favorite_place',
-                'all_name',
-                'favoritism',
-                'print_out',
-                'english_pd',
-                'git',
-                'notes'
+
+            $studentAttributes = array_except($mark, [
+                'id',
+                'current_rating',
+                'columns_summ',
+                'columns_amount',
+                'created_at',
+                'updated_at',
+                'isChecked',
+                'current_rating_class'
             ]);
 
             $student = Student::updateOrCreate(['id' => $mark['id']], $studentAttributes);
 
-            $studentAttributesForSumm = array_only($mark, [
-            	'visually',
-            	'code',
-            	'explanation',
-            	'stability',
-            	'presentation',
-            	'questions',
-            	'favorite_place'
-            ]);
+            $studentAttributesForSumm = array_only($mark, $floatColumnsNames);
+
             $result = self::summColumns($studentAttributesForSumm);
 
             $student->fill($studentAttributes);
@@ -111,27 +135,7 @@ class StudentsController extends Controller
     }
 
     public function sendStudentsSettings() {
-        $student = new Student();
-        
-        $columns = Schema::getColumnListing($student->getTable());
-
-        $exceptNames = [];
-        array_push($exceptNames, array_search("columns_summ", $columns),
-                                    array_search("columns_amount", $columns),
-                                    array_search("created_at", $columns),
-                                    array_search("updated_at", $columns),
-                                    array_search("id", $columns)
-        );
-        foreach ($exceptNames as $name) {
-            if (false !== $name) {
-                unset($columns[$name]);
-            }
-        }
-
-        $settings = new Collection();
-        foreach ($columns as $key => $value) {
-            $settings->push(['name' => $value, 'type' => Schema::getColumnType('students', $value)]);
-        }
+        $settings = Student::columns();
 
         return response()->json(compact('settings'));
     }
