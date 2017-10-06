@@ -9,7 +9,7 @@
  	type : string - checkbox - float -symbol done admin-->  
 
 
-
+start from add name columns 
 
 functionality look through 
 

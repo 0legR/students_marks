@@ -213,6 +213,9 @@
 	width: 40px !important;
 }
 
+.mark-table-thead-th {
+	text-transform: capitalize !important;
+}
 /*.marks-index-container .ui.table thead th {
 	font-weight: 300;
 }

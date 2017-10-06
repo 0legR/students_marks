@@ -1,201 +1,79 @@
 import React, {Component} from 'react';
-import main from '../../le/ukr/marks/table';
+import main from '../../le/eng/marks/table';
+import {TD_STRING, TD_FLOAT, TD_BOOLEAN, TD_IS_CHEKCED, TD_CURRENT_RATING} from './tableRowComponent';
 
 export default class Table extends Component {
+	theadMarkGet() {
+		let theadMark = [];
+		for(let prop in this.props.markSettings.settings) {
+			let settings = this.props.markSettings.settings[prop];
+			main.head[settings.name] = settings.name.replace(/_/g, " ");
+			theadMark.push(<th colSpan="1" className="mark-table-thead-th" key={settings.name+prop}>{main.head[settings.name]}</th>);
+		}
+		return theadMark;
+	}
+
 	render() {
-		const regexFloat = /^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/;
+		const THEADMARK = this.theadMarkGet();
+		const COLUMN_TYPE = this.props.columnTypeGet();
+		let self = this.props;
+
 		const ROW = this.props.marks.map((mark, key) => <tr key={key}>
-			<td className="collapsing">
-				<div className="ui fitted slider checkbox">
-					<input
+				<TD_IS_CHEKCED 
 						id={mark.id}
-						type="checkbox"
-						name="isChecked"
-						defaultChecked={mark.isChecked}
-						onChange={this.props.handlerOnChange}
-					 /> <label></label>
-				</div>
-			</td>
-			<td>
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.all_name}
-					onChange={this.props.handlerOnChange}
-					name="all_name"
-					onBlur=""
-					ref={(input) => this.all_name = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[a-zA-Z ]+$/)}
+						defaultValue={mark.isChecked}
+						onChange={self.handlerOnChange}
+						name={"isChecked"}
 				/>
-			</td>
-			<td className={mark.current_rating_class}>
-				{mark.current_rating}
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.visually}
-					onChange={this.props.handlerOnChange}
-					name="visually"
-					onBlur=""
-					ref={(input) => this.visually = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.code}
-					onChange={this.props.handlerOnChange}
-					name="code"
-					onBlur=""
-					ref={(input) => this.code = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.explanation}
-					onChange={this.props.handlerOnChange}
-					name="explanation"
-					onBlur=""
-					ref={(input) => this.explanation = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.stability}
-					onChange={this.props.handlerOnChange}
-					name="stability"
-					onBlur=""
-					ref={(input) => this.stability = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.presentation}
-					onChange={this.props.handlerOnChange}
-					name="presentation"
-					onBlur=""
-					ref={(input) => this.presentation = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.questions}
-					onChange={this.props.handlerOnChange}
-					name="questions"
-					onBlur=""
-					ref={(input) => this.questions = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="number"
-					defaultValue={mark.favorite_place}
-					onChange={this.props.handlerOnChange}
-					name="favorite_place"
-					onBlur=""
-					ref={(input) => this.favorite_place = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
-				/>
-			</td>
-			<td className="float-input">
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.favoritism}
-					onChange={this.props.handlerOnChange}
-					name="favoritism"
-					onBlur=""
-					ref={(input) => this.favoritism = input}
-					onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]/)}
-				/>
-			</td>
-			<td className="collapsing">
-				<div className="ui fitted slider checkbox">
-					<input
+				{Object.keys(mark).map((columnName, k) => 
+					(COLUMN_TYPE[columnName] === 'string' ?  
+						<TD_STRING
 						id={mark.id}
-						type="checkbox"
-						name="print_out"
-						defaultChecked={mark.print_out}
-						onChange={this.props.handlerOnChange}
-					 /> <label></label>
-				</div>
-			</td>
-			<td className="collapsing">
-				<div className="ui fitted slider checkbox">
-					<input
+						defaultValue={mark[columnName]}
+						onChange={self.handlerOnChange}
+						name={columnName}
+						key={k}
+					/> : 
+					columnName === 'current_rating' ? <TD_CURRENT_RATING
+						data={mark[columnName]}
+						nameClass={mark.current_rating_class}
+						key={k}
+					/> :
+					COLUMN_TYPE[columnName] === 'float' && columnName !== 'current_rating' ? <TD_FLOAT
 						id={mark.id}
-						type="checkbox"
-						name="english_pd"
-						defaultChecked={mark.english_pd}
-						onChange={this.props.handlerOnChange}
-					 /> <label></label>
-				</div>
-			</td>
-			<td className="collapsing">
-				<div className="ui fitted slider checkbox">
-					<input
+						defaultValue={mark[columnName]}
+						onChange={self.handlerOnChange}
+						name={columnName}
+						key={k}
+					/> : 
+					COLUMN_TYPE[columnName] === 'boolean' ? <TD_BOOLEAN
 						id={mark.id}
-						type="checkbox"
-						name="git"
-						defaultChecked={mark.git}
-						onChange={this.props.handlerOnChange}
-					 /> <label></label>
-				</div>
-			</td>
-			<td>
-				<input
-					id={mark.id}
-					type="text"
-					defaultValue={mark.notes}
-					onChange={this.props.handlerOnChange}
-					name="notes"
-					onBlur=""
-					ref={(input) => this.notes = input}
-				/>
-			</td>
-		</tr>);
+						defaultValue={mark[columnName]}
+						onChange={self.handlerOnChange}
+						name={columnName}
+						key={k}
+					/> : 
+					columnName === 'updated_at' ? null : 
+					columnName === 'created_at' ? null : 
+					columnName === 'id' ? null : 
+					columnName === 'columns_amount' ? null :
+					columnName === "columns_summ" ? null : 
+					columnName === "isChecked" ? null : null
+					)
+				)}
+			</tr>);
+	
 		return (
 			<div>
 				<table className="ui compact celled definition table">
 					<thead className="full-width">
 					    <tr>
-					      <th colSpan="1"></th>
-					      <th colSpan="1">{main.head.firstColumn}</th>
-					      <th colSpan="1">{main.head.secondColumn}</th>
-					      <th colSpan="1">{main.head.thirdColumn}</th>
-					      <th colSpan="1">{main.head.forthColumn}</th>
-					      <th colSpan="1">{main.head.fifthColumn}</th>
-					      <th colSpan="1">{main.head.sixthColumn}</th>
-					      <th colSpan="1">{main.head.seventhColumn}</th>
-					      <th colSpan="1">{main.head.eighthColumn}</th>
-					      <th colSpan="1">{main.head.ninthColumn}</th>
-					      <th colSpan="1">{main.head.tenthColumn}</th>
-					      <th colSpan="1">{main.head.eleventhColumn}</th>
-					      <th colSpan="1">{main.head.twelfthColumn}</th>
-					      <th colSpan="1">{main.head.thirteenthColumn}</th>
-					      <th colSpan="1">{main.head.fourteenthColumn}</th>
+					    	<th colSpan="1"></th>
+					    	{THEADMARK}
 					    </tr>
 					</thead>
 					<tbody>
-						{ROW}
+							{ROW}
 					</tbody>
 				</table>
 				<table>
@@ -221,7 +99,7 @@ export default class Table extends Component {
 						</tr>
 					</tfoot>
 				</table>
-				</div>
+			</div>
 		);
 	};
 };

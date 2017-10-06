@@ -7,6 +7,7 @@ import {addFlashMessages} from '../../actions/flashMessages';
 import Table from './Table';
 import Errors from './errors';
 import classnames from 'classnames';
+import {getMarkSettings} from '../../actions/markSettingsAction';
 
 class MarksIndex extends Component {
 	constructor(props) {
@@ -22,6 +23,7 @@ class MarksIndex extends Component {
 		this.handlerAddRow = this.handlerAddRow.bind(this);
 		this.handlerRemoveMarks = this.handlerRemoveMarks.bind(this);
 		this.markUpdateToRedux = this.markUpdateToRedux.bind(this);
+		this.columnTypeGet = this.columnTypeGet.bind(this);
 	}
 
 	componentDidMount()	{
@@ -31,7 +33,7 @@ class MarksIndex extends Component {
 	}
 
 	componentWillMount() {
-		this.setState({isLoading: true});
+		this.props.getMarkSettings();
 	}
 
 	markUpdateToRedux() {
@@ -116,24 +118,32 @@ class MarksIndex extends Component {
 		setTimeout(() => {this.setState({isLoading: false})}, 2000);
 	}
 
+	columnTypeGet() {
+		let columnType = {};
+		for(let prop in this.props.markSettings.settings) {
+			let settings = this.props.markSettings.settings[prop];
+			columnType[settings.name] = settings.type;
+		}
+		return columnType;
+	}
+
 	handlerAddRow() {
 		let marksTemp = this.state.marks;
-		marksTemp.push({
-			id: (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase(),
-			all_name: "",
-			visually: "",
-			code: "",
-			explanation: "",
-			stability: "",
-			presentation: "",
-			questions: "",
-			favorite_place: "",
-			favoritism: "",
-			print_out: false,
-			english_pd: false,
-			git: false,
-			notes: ""
-		});
+		const COLUMN_TYPE = this.columnTypeGet();
+		let row = {};
+		marksTemp.map((mark, key) => 
+			Object.keys(mark).map((columnName, k) => {
+				row['id'] = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+				if (COLUMN_TYPE[columnName] === 'string' || COLUMN_TYPE[columnName] === 'float') {
+							row[columnName] = "";
+				}
+				if (COLUMN_TYPE[columnName] === 'boolean') {
+					row[columnName] = false;
+				}
+			})
+		);
+		marksTemp.push(row);
+
 		this.setState({
 			marks: marksTemp
 		});
@@ -181,6 +191,8 @@ class MarksIndex extends Component {
 							handlerAddRow={this.handlerAddRow}
 							handlerRemoveMarks={this.handlerRemoveMarks}
 							handlerOnChange={this.handlerOnChange}
+							markSettings={this.props.markSettings}
+							columnTypeGet={this.columnTypeGet}
 						/>
 					</div>	
 				</form>
@@ -194,13 +206,15 @@ MarksIndex.propTypes = {
 	getMarks: PropTypes.func.isRequired,
 	marks: PropTypes.array.isRequired,
 	addFlashMessages: PropTypes.func.isRequired,
-	deleteMarks: PropTypes.func.isRequired
+	deleteMarks: PropTypes.func.isRequired,
+	getMarkSettings: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
 	return {
-		marks: state.marks
+		marks: state.marks,
+		markSettings: state.markSettings
 	};
 }
 
-export default connect(mapStateToProps, {saveMark, getMarks, addFlashMessages, deleteMarks})(MarksIndex);
+export default connect(mapStateToProps, {saveMark, getMarks, addFlashMessages, deleteMarks, getMarkSettings})(MarksIndex);
