@@ -12,6 +12,16 @@ export const TD_STRING = ({id, defaultValue, onChange, name}) => <td>
 				onKeyUp={(e) => e.target.value = e.target.value.match(/^[a-zA-Z ]+$/)}
 			/>
 		</td>;
+export const TD_TEXT = ({id, defaultValue, onChange, name}) => <td>
+			<input
+				id={id}
+				type="text"
+				defaultValue={defaultValue}
+				onChange={onChange}
+				name={name}
+				onKeyUp={(e) => e.target.value = e.target.value.match(/^[!@#$%^&*()_+=<>|./?,-]$/)}
+			/>
+		</td>;
 export const TD_FLOAT = ({id, defaultValue, onChange, name}) => <td className="float-input">
 			<input
 				id={id}

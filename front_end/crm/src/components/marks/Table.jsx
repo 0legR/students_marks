@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import main from '../../le/eng/marks/table';
-import {TD_STRING, TD_FLOAT, TD_BOOLEAN, TD_IS_CHEKCED, TD_CURRENT_RATING} from './tableRowComponent';
+import {TD_STRING, TD_FLOAT, TD_BOOLEAN, TD_IS_CHEKCED, TD_CURRENT_RATING, TD_TEXT} from './tableRowComponent';
 
 export default class Table extends Component {
 	theadMarkGet() {
@@ -52,7 +52,14 @@ export default class Table extends Component {
 						onChange={self.handlerOnChange}
 						name={columnName}
 						key={k}
-					/> : 
+					/> :
+					COLUMN_TYPE[columnName] === 'text' ? <TD_TEXT
+						id={mark.id}
+						defaultValue={mark[columnName]}
+						onChange={self.handlerOnChange}
+						name={columnName}
+						key={k}
+					/> :
 					columnName === 'updated_at' ? null : 
 					columnName === 'created_at' ? null : 
 					columnName === 'id' ? null : 
@@ -75,8 +82,6 @@ export default class Table extends Component {
 					<tbody>
 							{ROW}
 					</tbody>
-					<tfoot className="full-width">
-					</tfoot>
 				</table>
 				<table>
 					<tfoot className="full-width">

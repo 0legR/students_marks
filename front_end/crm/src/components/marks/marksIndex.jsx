@@ -82,7 +82,6 @@ class MarksIndex extends Component {
 				}
 			}
 		});
-
 		this.setState({
 			marks: marksTemp
 		});
@@ -135,7 +134,7 @@ class MarksIndex extends Component {
 		marksTemp.map((mark, key) => 
 			Object.keys(mark).map((columnName, k) => {
 				row['id'] = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-				if (COLUMN_TYPE[columnName] === 'string' || COLUMN_TYPE[columnName] === 'float') {
+				if (COLUMN_TYPE[columnName] === 'string' || COLUMN_TYPE[columnName] === 'float' || COLUMN_TYPE[columnName] === 'text') {
 							row[columnName] = "";
 				}
 				if (COLUMN_TYPE[columnName] === 'boolean') {

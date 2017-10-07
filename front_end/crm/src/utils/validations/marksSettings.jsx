@@ -17,10 +17,10 @@ export default function validateInput(data) {
     errors.type = 'The type field is required';
   } else {
 
-    if (!Validator.isLength(data.type, {min: 5, max: 7})) {
+    if (!Validator.isLength(data.type, {min: 4, max: 7})) {
       errors.type = 'The type field must has length between 5-8 letters';
     } else {
-      if (data.type !== "string" && data.type !== "boolean" && data.type !== "float") {
+      if (data.type !== "string" && data.type !== "boolean" && data.type !== "float" && data.type !== "text") {
         errors.type = 'The type field must has name only "string" or "boolean" , "float"';
       }
     }
