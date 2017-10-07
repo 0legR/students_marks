@@ -21,7 +21,15 @@ class Settings extends Component {
 					<div className="ui middle aligned divided list">
 						<ul>
 							<li><Link to="/users/types">{settings.directorySettings.typeLink}</Link></li>
-							<li><Link to="/marks/settings">{settings.directorySettings.markLink}</Link></li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<div className="ui block header header-settings">{settings.markSettings.header}</div>
+					<div className="ui middle aligned divided list">
+						<ul>
+							<li><Link to="/marks/settings">{settings.markSettings.columnsLink}</Link></li>
+							<li><Link to="/marks/weigth">{settings.markSettings.weigthLink}</Link></li>
 						</ul>
 					</div>
 				</div>

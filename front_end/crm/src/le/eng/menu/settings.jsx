@@ -7,7 +7,11 @@ export default {
 	},
 	directorySettings: {
 		header: "Directory Management",
-		typeLink: "User Types",
-		markLink: "Marks",
+		typeLink: "User Types"
+	},
+	markSettings: {
+		header: "Mark Management",
+		columnsLink: "Columns Management",
+		weigthLink: "Float Columns Weigth Management"
 	}
 }
