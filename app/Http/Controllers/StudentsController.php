@@ -52,7 +52,7 @@ class StudentsController extends Controller
                             $set['name'] => 'nullable|string'
                         ];
                     }
-                    if ($set['type'] === 'string' && $set['name'] === 'favoritism') {
+                    if ($set['type'] === 'text') {
                         $rules = [
                             $set['name'] => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/'
                         ];
