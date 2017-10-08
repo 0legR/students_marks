@@ -39,6 +39,13 @@ Route::get('/api/students/settings/{identifier}', 'StudentsController@getColumn'
 Route::put('/api/students/settings/{name}', 'StudentsController@storeColumn');
 Route::delete('/api/students/settings/{name}', 'StudentsController@destroyColumn');
 
+// ------------------------students settings weigth-----------------------------
+
+Route::get('/api/students/weigth', 'StudentsSettingsController@sendStudentsWeigth');
+Route::get('/api/students/weigth/{id}', 'StudentsSettingsController@getWeigth');
+Route::put('/api/students/weigth/{id}', 'StudentsSettingsController@storeWeigth');
+Route::delete('/api/students/weigth/{id}', 'StudentsSettingsController@destroyWeigth');
+
 
 
 
