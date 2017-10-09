@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {TextFieldGroup} from '../../layout/TextFieldGroup';
 import classnames from 'classnames';
-import weigth from '../../../le/eng/marks/weigth';
+import weigthLe from '../../../le/eng/marks/weigth';
 import PropTypes from 'prop-types';
 import validateInput from '../../../utils/validations/marksWeigth';
 
@@ -10,8 +10,8 @@ export default class MarkWeigthForm extends Component {
 		super(props);
 		this.state = {
 			id: this.props.markWeigth.id,
-			columnName: this.props.markWeigth.name,
-			columnWeigth: this.props.markWeigth.weigth.toString(),
+			name: this.props.markWeigth.name,
+			weigth: this.props.markWeigth.weigth.toString(),
 			errors: {},
 			isLoading: false
 		}
@@ -37,9 +37,9 @@ export default class MarkWeigthForm extends Component {
 	handlerOnSubmit(e) {
 		e.preventDefault();
 		if (this.isValid()) {
-			const {id, columnName, columnWeigth} = this.state;
+			const {id, name, weigth} = this.state;
 			this.setState({errors: {}, isLoading: true});
-			this.props.saveMarkWeigth({id, columnName, columnWeigth})
+			this.props.saveMarkWeigth({id, name, weigth})
 				.then(() => {
 					this.props.addFlashMessages({
 						type: "success",
@@ -54,28 +54,28 @@ export default class MarkWeigthForm extends Component {
 	}
 
 	render() {
-		const {columnName, columnWeigth, errors, isLoading} = this.state;
+		const {name, weigth, errors, isLoading} = this.state;
 		const regexFloat = /^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/;
 
 		return (
 			<form className={classnames("ui", "form signup", {loading: this.state.isLoading})} onSubmit={this.handlerOnSubmit}>
-				<h1>{weigth.formCreate.header}</h1>
-				<div className={classnames("field", {"field error": error})}>
-					<label className="ui label">{weigth.formCreate.label.name}</label>
+				<h1>{weigthLe.formCreate.header}</h1>
+				<div className={classnames("field", {"field error": errors.name})}>
+					<label className="ui label">{weigthLe.formCreate.label.name}</label>
 					<input
-						value={columnName}
+						value={name}
 						type="text"
-						name={columnName}
+						name={name}
 						className="ui input"
 						readOnly
 					/>
 				</div>
 				<TextFieldGroup
-					error={errors.columnWeigth}
-					label={weigth.formCreate.label.weigth}
+					error={errors.weigth}
+					label={weigthLe.formCreate.label.weigth}
 					onChange={this.handlerOnChange}
-					value={columnWeigth}
-					field="columnWeigth"
+					value={weigth}
+					field="weigth"
 					type="number"
 					onKeyUp={(e) => e.target.value = e.target.value.match(regexFloat)}
 				/>
@@ -84,7 +84,7 @@ export default class MarkWeigthForm extends Component {
 						<button
 							disabled={isLoading}
 							className="ui orange basic right floated button"
-						>{weigth.formCreate.button.save}</button>
+						>{weigthLe.formCreate.button.save}</button>
 					</div>
 				</div>
 			</form>

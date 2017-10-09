@@ -30,7 +30,7 @@ function destroyMarkSettings(id) {
 export function getOneMarkWeigth(id) {
 	return dispatch => axios.get(`/api/students/weigth/${id}`)
 		.then(res => res.data)
-		.then(data => dispatch(setOneMarkWeigthToRedux(data.markWeigth)));
+		.then(data => dispatch(setOneMarkWeigthToRedux(data)));
 }
 
 function setOneMarkWeigthToRedux(markWeigth) {

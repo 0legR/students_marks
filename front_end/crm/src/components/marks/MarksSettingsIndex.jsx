@@ -45,9 +45,26 @@ class MarksSettingsIndex extends Component {
 			let settings = this.props.markSettings.settings[prop];
 
 			if (settings.type === columnType || settings.name === columnName) {
-					resultFilter.push(<tr key={prop}>
-				      <td><div className="usertype-th">{settings.name}</div></td>
-				      <td><div className="usertype-th">{settings.type}</div></td>
+					resultFilter.push(<tr key={prop}>	
+				      <td>
+				      	<Link to={`/marks/settings/update/${settings.name}`}>
+				      		<div className="usertype-th">{settings.name}</div>
+				      	</Link>
+				      </td>
+				      <td>
+				      	<Link to={`/marks/settings/update/${settings.name}`}>
+				      		<div className="usertype-th">{settings.type}</div>
+				      	</Link>
+				      </td>
+				      <td>
+				    	<div className="usertype-th-destroy">
+				    		<button className="ui negative basic button" onClick={() => self.handlerDestroy(settings.name)}>
+					    			<div className="usertype-destroy">
+					    				<i className="trash outline icon"></i>
+					    			</div>
+				    		</button>
+				    	</div>
+				    	</td>
 				    </tr>);
 				} else {
 					resultAll.push(<tr key={prop}>	

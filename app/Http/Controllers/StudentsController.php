@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\StudentsSettings;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
@@ -160,10 +161,14 @@ class StudentsController extends Controller
                     if ($validator->fails()) {
                         return response()->json($validator->errors(), 422);
                     }
-
                     Schema::table('students', function($table) use ($request){
                         $table->renameColumn($request->prevName, $request->name);
                     });
+                    if ($request->prevType === $request->type && $request->prevType === 'float' && $request->prevName !== 'current_rating' && $request->name !== 'current_rating') {
+                        $studentsSettings = StudentsSettings::where('name', $request->prevName)->first();
+                        $studentsSettings->name = $request->name;
+                        $studentsSettings->save();
+                    }
                 }
                 if ($request->prevType !== $request->type) {
                     $validator = Validator::make(['name' => $request->name, 'type' => $request->type], $rules);
@@ -187,6 +192,9 @@ class StudentsController extends Controller
                 Schema::table('students', function($table) use ($request){
                     $table->{$request->type}($request->name)->nullable();
                 });
+                $studentsSettings = new StudentsSettings();
+                $studentsSettings->name = $request->name;
+                $studentsSettings->save();
             } catch(\Illuminate\Database\QueryException $exception) {
                 return response()->json($exception->errorInfo, 422);
             }
@@ -228,6 +236,7 @@ class StudentsController extends Controller
             Schema::table('students', function ($table) use ($request) {
                 $table->dropColumn($request->name);
             });
+            StudentsSettings::where('name', $request->name)->delete();
         } catch(\Illuminate\Database\QueryException $exception) {
                 return response()->json($exception->errorInfo, 422);
         }
