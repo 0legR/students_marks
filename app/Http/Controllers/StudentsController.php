@@ -37,11 +37,11 @@ class StudentsController extends Controller
             $floatColumnsNames = [];
             foreach ($settings as $set) {
                 if (array_key_exists($set['name'], $mark)) {
-                    if ($set['type'] === 'float') {
+                    if ($set['type'] === 'float' && $set['name'] !== 'current_rating') {
                         $rules = [
                             $set['name'] => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/'
                         ];
-                        $floatColumnsNames = [$set['name']];
+                        array_push($floatColumnsNames, $set['name']);
                     }
                     if ($set['type'] === 'string' && $set['name'] === 'all_name') {
                         $rules = [
@@ -93,8 +93,8 @@ class StudentsController extends Controller
             
             if ($result) {
                 $student->columns_summ = $result['columnSumm'];
-                $student->columns_amount = $result['amountColumns'];
-                $student->current_rating = $result['columnSumm'] / $result['amountColumns'];
+                $student->columns_amount = $result['weigthSumm'];
+                $student->current_rating = $result['columnSumm'] / $result['weigthSumm'];
             }
 
             $student->save();
@@ -122,17 +122,25 @@ class StudentsController extends Controller
 
     protected function summColumns($attributes)
     {
-    	$attrForSumm = [];
+        $columnsWeigth = StudentsSettings::all();
+        $attributesWeigth = [];
+        foreach ($columnsWeigth as $columnWeigth) {
+            $attributesWeigth[$columnWeigth->name] = $columnWeigth->weigth;
+        }
+        $weigthSumm = array_sum($attributesWeigth);
+    	
+        $attrForSumm = [];
     	$amountColumns = 0;
-    	foreach($attributes as $attr) {
+
+    	foreach($attributes as $key => $attr) {
     		if (!empty($attr)) {
-    			array_push($attrForSumm, intval($attr));
+                $attrForSumm[$key] = $attributesWeigth[$key] * $attr;
     			$amountColumns++;
     		}
     	}
 
     	$columnSumm = array_sum($attrForSumm);
-    	return $amountColumns !== 0 ? compact('columnSumm', 'amountColumns') : false;
+    	return $amountColumns !== 0 ? compact('columnSumm', 'weigthSumm') : false;
     }
 
     public function sendStudentsSettings() {
