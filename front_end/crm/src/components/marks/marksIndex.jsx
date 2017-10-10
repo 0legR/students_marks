@@ -40,7 +40,7 @@ class MarksIndex extends Component {
 		let marksTemp = this.state.marks;
 		marksTemp.forEach(function(mark) {
 			mark['isChecked'] = false;
-			if (mark['current_rating'] === 0 || mark['current_rating'] === null) {
+			if (mark['current_rating'] < 1 || mark['current_rating'] === null) {
 				mark['current_rating_class'] = "current-rating-0";
 				mark['current_rating'] = "0";
 			}
@@ -184,6 +184,7 @@ class MarksIndex extends Component {
 					<div className="marks-index-container">
 						<Errors
 							errors={errors}
+							marks={marks}
 						/>
 						<Table
 							marks={marks}

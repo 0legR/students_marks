@@ -14,19 +14,23 @@ export default function validateInput(mark, COLUMN_TYPE) {
         if (!Validator.isEmpty(String(data[columnName])) && String(data[columnName]) !== "null") {
           if (!String(data[columnName]).match(numberExp)) {
             errors[columnName] = `The ${columnName} field is not Float or not between 0-5`;
+            errors['id'] = data.id;
           }
         }
       }
       if (columnName === 'all_name') {
         if (Validator.isEmpty(String(data[columnName]))) {
           errors[columnName] = `The ${columnName} field is required`;
+          errors['id'] = data.id;
         } else {
           if (!Validator.isLength(String(data[columnName]), {min: 4, max: 60})) {
             errors[columnName] = `The ${columnName} field must has length between 4-60 letters`;
+            errors['id'] = data.id;
           }
 
           if (!String(data[columnName]).match(alphaExp)) {
             errors[columnName] = `The ${columnName} field should consist only english alphabet an space`;
+            errors['id'] = data.id;
           }
         }
       }
@@ -34,6 +38,7 @@ export default function validateInput(mark, COLUMN_TYPE) {
         if (!Validator.isEmpty(String(data[columnName])) && String(data[columnName]) !== "null") {
           if (!data[columnName].match(alphaExp)) {
             errors[columnName] = `The ${columnName} field should consist only english alphabet an space`;
+            errors['id'] = data.id;
           }
         }
       }
@@ -41,12 +46,14 @@ export default function validateInput(mark, COLUMN_TYPE) {
         if (!Validator.isEmpty(String(data[columnName])) && String(data[columnName]) !== "null") {
           if (!data[columnName].match(symbolsExp)) {
             errors[columnName] = `The ${columnName} field should consist only symbols (!@#$%^&*()_+=<>|./?,-)`;
+            errors['id'] = data.id;
           }
         }
       }
       if (COLUMN_TYPE[columnName] === 'boolean') {
         if (!Validator.isBoolean(String(data[columnName])) && String(data[columnName]) !== "null") {
             errors[columnName] = `The ${columnName} field is not Boolean`;
+            errors['id'] = data.id;
         }
       }
     })
