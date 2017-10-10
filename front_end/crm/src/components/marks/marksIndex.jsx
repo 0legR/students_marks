@@ -89,7 +89,8 @@ class MarksIndex extends Component {
 
 	isValid() {
 		const {marks} = this.state;
-		const {errors, isValid} = validateInput(marks);
+		const COLUMN_TYPE = this.columnTypeGet();
+		const {errors, isValid} = validateInput(marks, COLUMN_TYPE);
 		if (!isValid) {
 			return this.setState({errors});
 		}

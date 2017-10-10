@@ -38,30 +38,20 @@ class StudentsController extends Controller
             foreach ($settings as $set) {
                 if (array_key_exists($set['name'], $mark)) {
                     if ($set['type'] === 'float' && $set['name'] !== 'current_rating') {
-                        $rules = [
-                            $set['name'] => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/'
-                        ];
+                        $rules[$set['name']] = 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/';
                         array_push($floatColumnsNames, $set['name']);
                     }
-                    if ($set['type'] === 'string' && $set['name'] === 'all_name') {
-                        $rules = [
-                            $set['name'] => 'required|regex:/^[a-zA-Z ]+$/'
-                        ];
+                    if ($set['name'] === 'all_name') {
+                        $rules[$set['name']] = 'required|regex:/^[a-zA-Z ]+$/';
                     }
-                    if ($set['type'] === 'string') {
-                        $rules = [
-                            $set['name'] => 'nullable|string'
-                        ];
+                    if ($set['type'] === 'string' && $set['name'] !== 'all_name') {
+                        $rules[$set['name']] = 'nullable|string';
                     }
                     if ($set['type'] === 'text') {
-                        $rules = [
-                            $set['name'] => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/'
-                        ];
+                        $rules[$set['name']] = 'nullable|regex:/^[!@#$%^&*()_+=<>.\?,-]$/';
                     }
                     if ($set['type'] === 'boolean') {
-                        $rules = [
-                            $set['name'] => 'nullable|boolean'
-                        ];
+                        $rules[$set['name']] = 'nullable|boolean';
                     }
                 }
             }
