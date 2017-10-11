@@ -13,14 +13,15 @@ export default function markSettings(state = [], action = {}) {
 			if (index(state) > -1) {
 				let settings = [];
 				let itemElse = [];
+				const findItem = function(item) {
+					if (item.name === action.markSet.name) {
+						return settings = action.markSet;
+					} else {
+						return itemElse = item;
+					}
+				}
 				for(let prop in state) {
-					state[prop].map(item => {
-						if (item.name === action.markSet.name) {
-							return settings = action.markSet;
-						} else {
-							return itemElse = item;
-						}
-					});
+					state[prop].map(item => findItem(item));
 				};
 
 				if (settings.length !== 0) {

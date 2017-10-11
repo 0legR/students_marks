@@ -141,6 +141,7 @@ class MarksIndex extends Component {
 				if (COLUMN_TYPE[columnName] === 'boolean') {
 					row[columnName] = false;
 				}
+				return true;
 			})
 		);
 		marksTemp.push(row);

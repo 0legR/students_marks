@@ -56,6 +56,7 @@ export default function validateInput(mark, COLUMN_TYPE) {
             errors['id'] = data.id;
         }
       }
+      return true;
     })
   });
   
