@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import main from '../../le/ukr/marks/main';
+import main from '../../le/eng/marks/main';
 import MarksIndex from '../marks/marksMain/marksIndex';
 
 class Marks extends Component {

@@ -119,6 +119,7 @@ class MarksSettingsIndex extends Component {
 		const markSettings = this.handlerFilter();
 		return (
 			<div className="marks-settings-outside-container">
+				<h1>{settings.header.header}</h1>
 				<button
 					className="ui orange basic right floated button create-button"
 				><Link to="/marks/settings/create">{settings.header.buttonCreateColumn}</Link></button>

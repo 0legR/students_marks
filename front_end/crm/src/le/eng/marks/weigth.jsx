@@ -1,5 +1,6 @@
 export default {
 	header: {
+		header: "Column`s Weigth",
 		buttonCreateWeigth: "Create New Column Weigth"
 	},
 	table: {

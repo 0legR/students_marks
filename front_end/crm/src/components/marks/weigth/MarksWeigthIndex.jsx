@@ -85,6 +85,7 @@ class MarksWeigthIndex extends Component {
 		const settingsWeigth = this.handlerFilter();
 		return (
 			<div className="marks-settings-outside-container">
+				<h1>{weigth.header.header}</h1>
 				<table className="ui striped table">
 				  <thead>
 				    <tr>

@@ -74,7 +74,7 @@ export default class Table extends Component {
 				<table className="ui compact celled definition table">
 					<thead className="full-width">
 					    <tr>
-					    	<th colSpan="1"></th>
+					    	<th colSpan="1"><div className="marks-destroy"><i className="trash outline icon"></i></div></th>
 					    	{THEADMARK}
 					    </tr>
 					</thead>

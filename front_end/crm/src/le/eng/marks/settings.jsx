@@ -1,5 +1,6 @@
 export default {
 	header: {
+		header: "Column`s Management",
 		buttonCreateColumn: "Create New Column"
 	},
 	table: {

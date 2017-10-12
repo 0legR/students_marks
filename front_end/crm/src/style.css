@@ -220,6 +220,11 @@
 .mark-table-thead-th {
 	text-transform: capitalize !important;
 }
+
+.marks-destroy {
+	color: white;
+	text-align: center;
+}
 /*.marks-index-container .ui.table thead th {
 	font-weight: 300;
 }
