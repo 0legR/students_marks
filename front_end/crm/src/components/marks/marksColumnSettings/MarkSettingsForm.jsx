@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {TextFieldGroup} from '../layout/TextFieldGroup';
+import {TextFieldGroup} from '../../layout/TextFieldGroup';
 import classnames from 'classnames';
-import settings from '../../le/eng/marks/settings';
+import settings from '../../../le/eng/marks/settings';
 import PropTypes from 'prop-types';
-import validateInput from '../../utils/validations/marksSettings';
+import validateInput from '../../../utils/validations/marksSettings';
 
 export default class MarkSettingsForm extends Component {
 	constructor(props) {

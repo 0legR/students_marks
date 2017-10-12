@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StudentsSettings;
+use App\Models\Student;
 use Illuminate\Support\Facades\Validator;
 
 class StudentsSettingsController extends Controller
@@ -37,6 +38,10 @@ class StudentsSettingsController extends Controller
 		$studentsSettings->weigth = $request->weigth;
 
 		$studentsSettings->save();
+
+        $student = new Student();
+        
+        $student->calculationUpdate();
 
 		return response()->json(['success' => true]);
     }

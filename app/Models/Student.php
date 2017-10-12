@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
+use App\Models\StudentsSettings;
 
 class Student extends Model
 {
@@ -14,7 +15,8 @@ class Student extends Model
         'updated_at'
     ];
 
-    public function scopeColumns() {
+    public function scopeColumns()
+    {
         $student = new Student();
         
         $columns = Schema::getColumnListing($student->getTable());
@@ -38,21 +40,74 @@ class Student extends Model
         }
         return $settings;
     }
+    
+    public static function calculation($attributes)
+    {
+        $columnsWeigth = StudentsSettings::all();
+        $attributesWeigth = [];
+        foreach ($columnsWeigth as $columnWeigth) {
+            $attributesWeigth[$columnWeigth->name] = $columnWeigth->weigth;
+        }
+        $weigthSumm = array_sum($attributesWeigth);
+        
+        $attrForSumm = [];
+        $amountColumns = 0;
 
-    // public function scopeForfillable() {
-    //     $student = new Student();
-    //     $columns = Schema::getColumnListing($student->getTable());;
-    //     $fillable = [];
+        foreach($attributes as $key => $attr) {
+            if (!empty($attr)) {
+                $attrForSumm[$key] = $attributesWeigth[$key] * $attr;
+                $amountColumns++;
+            }
+        }
+    
+        $columnSumm = array_sum($attrForSumm);
+        return $amountColumns !== 0 ? compact('columnSumm', 'weigthSumm') : false;
+    }
 
-    //     $fillable = array_except($columns, [
-    //             'id',
-    //             'created_at',
-    //             'updated_at',
-    //     ]);
+    public static function calculationUpdate()
+    {
+        $students = Student::all();
+        $settings = Student::columns();
+        
+        foreach ($students as $student) {
+            $floatColumnsNames = [];
+            $studentAttributes = [];
+            foreach ($settings as $set) {
+                $studentArray = $student->toArray();
+                if (array_key_exists($set['name'], $studentArray)) {
+                    if ($set['type'] === 'float' && $set['name'] !== 'current_rating') {
+                        array_push($floatColumnsNames, $set['name']);
+                    }
+                }
+            }
+            $studentAttributes = array_except($studentArray, [
+                'id',
+                'current_rating',
+                'columns_summ',
+                'columns_amount',
+                'created_at',
+                'updated_at',
+                'isChecked',
+                'current_rating_class'
+            ]);
 
-    //     return $fillable;
-    // }
+            $student = Student::updateOrCreate(['id' => $studentArray['id']], $studentAttributes);
 
+            $studentAttributesForSumm = array_only($studentArray, $floatColumnsNames);
+
+            $result = $student->calculation($studentAttributesForSumm);
+
+            $student->fill($studentAttributes);
+            
+            if ($result) {
+                $student->columns_summ = $result['columnSumm'];
+                $student->columns_amount = $result['weigthSumm'];
+                $student->current_rating = $result['columnSumm'] / $result['weigthSumm'];
+            }
+
+            $student->save();
+        }
+    }
 
     // protected $fillable = [
     // 	'all_name',

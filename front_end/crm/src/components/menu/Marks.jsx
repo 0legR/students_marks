@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import main from '../../le/ukr/marks/main';
-import MarksIndex from '../marks/marksIndex';
+import MarksIndex from '../marks/marksMain/marksIndex';
 
 class Marks extends Component {
 	render() {

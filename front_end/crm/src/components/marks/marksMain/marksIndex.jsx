@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import validateInput from '../../utils/validations/marks';
-import {saveMark, getMarks, deleteMarks} from '../../actions/marksActions';
+import validateInput from '../../../utils/validations/marks';
+import {saveMark, getMarks, deleteMarks} from '../../../actions/marksActions';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {addFlashMessages} from '../../actions/flashMessages';
+import {addFlashMessages} from '../../../actions/flashMessages';
 import Table from './Table';
 import Errors from './errors';
 import classnames from 'classnames';
-import {getMarkSettings} from '../../actions/markSettingsAction';
+import {getMarkSettings} from '../../../actions/markSettingsAction';
 
 class MarksIndex extends Component {
 	constructor(props) {

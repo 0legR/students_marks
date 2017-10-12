@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import {getMarkSettings, deleteMarkSettings} from '../../actions/markSettingsAction';
-import settings from '../../le/eng/marks/settings';
+import {getMarkSettings, deleteMarkSettings} from '../../../actions/markSettingsAction';
+import settings from '../../../le/eng/marks/settings';
 
 class MarksSettingsIndex extends Component {
 	constructor(props) {

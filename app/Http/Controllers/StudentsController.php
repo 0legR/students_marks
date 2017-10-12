@@ -15,24 +15,8 @@ class StudentsController extends Controller
     public function storeStudent(Request $request)
     {
         $settings = Student::columns();
-    	$rules = [
-    		// 'all_name' => 'required|regex:/^[a-zA-Z ]+$/',
-    		// 'visually' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'code' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'explanation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'stability' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'presentation' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'questions' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'favorite_place' => 'nullable|regex:/^(?=.+)(?:[0-5])?(?:\.[0-9]{0,2})?$/',
-    		// 'favoritism' => 'nullable|regex:/^[!@#$%^&*_+=<>?-]/',
-    		// 'print_out' => 'nullable|boolean',
-    		// 'english_pd' => 'nullable|boolean',
-    		// 'git' => 'nullable|boolean',
-    		// 'notes' => 'nullable|string'
-    	];
+    	$rules = [];
 
-                
-            
         foreach ($request->marks as $mark) {
             $floatColumnsNames = [];
             foreach ($settings as $set) {
@@ -77,7 +61,7 @@ class StudentsController extends Controller
 
             $studentAttributesForSumm = array_only($mark, $floatColumnsNames);
 
-            $result = self::summColumns($studentAttributesForSumm);
+            $result = $student->calculation($studentAttributesForSumm);
 
             $student->fill($studentAttributes);
             
@@ -108,29 +92,6 @@ class StudentsController extends Controller
                 return response()->json($exception->errorInfo, 422);
         }
         return response()->json(['success' => true]);
-    }
-
-    protected function summColumns($attributes)
-    {
-        $columnsWeigth = StudentsSettings::all();
-        $attributesWeigth = [];
-        foreach ($columnsWeigth as $columnWeigth) {
-            $attributesWeigth[$columnWeigth->name] = $columnWeigth->weigth;
-        }
-        $weigthSumm = array_sum($attributesWeigth);
-    	
-        $attrForSumm = [];
-    	$amountColumns = 0;
-
-    	foreach($attributes as $key => $attr) {
-    		if (!empty($attr)) {
-                $attrForSumm[$key] = $attributesWeigth[$key] * $attr;
-    			$amountColumns++;
-    		}
-    	}
-
-    	$columnSumm = array_sum($attrForSumm);
-    	return $amountColumns !== 0 ? compact('columnSumm', 'weigthSumm') : false;
     }
 
     public function sendStudentsSettings() {
@@ -229,12 +190,13 @@ class StudentsController extends Controller
     }
 
     public function destroyColumn(Request $request) {
-
         try {
             Schema::table('students', function ($table) use ($request) {
                 $table->dropColumn($request->name);
             });
             StudentsSettings::where('name', $request->name)->delete();
+            $student = new Student();
+            $student->calculationUpdate();
         } catch(\Illuminate\Database\QueryException $exception) {
                 return response()->json($exception->errorInfo, 422);
         }

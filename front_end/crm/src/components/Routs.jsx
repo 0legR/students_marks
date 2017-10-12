@@ -11,8 +11,8 @@ import Managers from './users/Managers';
 import AdministratorsCreate from './users/administrators/AdministratorsCreate';
 import UserTypesIndex from './users/usertypes/UserTypesIndex';
 import UserTypeFormPage from './users/usertypes/UserTypeFormPage';
-import MarksSettings from './marks/MarksSettingsIndex';
-import MarksSettingsFormPage from './marks/MarksSettingsFormPage';
+import MarksSettings from './marks/marksColumnSettings/MarksSettingsIndex';
+import MarksSettingsFormPage from './marks/marksColumnSettings/MarksSettingsFormPage';
 import MarksWeigth from './marks/weigth/MarksWeigthIndex';
 import MarksWeigthFormPage from './marks/weigth/MarksWeigthFormPage';
 

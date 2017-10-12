@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {getOneMarkSet, updateMarkSettings, markSettingsRequest, isMarkSettingsExists} from '../../actions/markSettingsAction';
-import {addFlashMessages} from '../../actions/flashMessages';
+import {getOneMarkSet, updateMarkSettings, markSettingsRequest, isMarkSettingsExists} from '../../../actions/markSettingsAction';
+import {addFlashMessages} from '../../../actions/flashMessages';
 import MarkSettingsForm from './MarkSettingsForm';
 import {Redirect} from 'react-router-dom';
 

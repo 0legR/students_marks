@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import main from '../../le/eng/marks/table';
+import main from '../../../le/eng/marks/table';
 import {TDSTRING, TDFLOAT, TDBOOLEAN, TDISCHEKCED, TDCURRENTRATING, TDTEXT} from './tableRowComponent';
 
 export default class Table extends Component {
