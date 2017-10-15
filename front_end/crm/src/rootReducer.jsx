@@ -5,7 +5,8 @@ import userTypes from './reducers/userTypes';
 import marks from './reducers/marks';
 import markSettings from './reducers/markSettings';
 import markWeigth from './reducers/markWeigth';
+import kanban from './reducers/kanban';
 
 export default combineReducers(
-	{users, flashMessages, userTypes, marks, markSettings, markWeigth}
+	{users, flashMessages, userTypes, marks, markSettings, markWeigth, kanban}
 );

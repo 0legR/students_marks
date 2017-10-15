@@ -23,6 +23,7 @@ class HomeHeader extends React.Component {
 			<div className="ui secondary pointing menu">
 				<NavLink className="item" activeClassName="active" exact to="/settings">{header.navLinkSettings}</NavLink>
 				<NavLink className="item" activeClassName="active" exact to="/marks">{header.navLinkMarks}</NavLink>
+				<NavLink className="item" activeClassName="active" exact to="/kanban">{header.kanban}</NavLink>
 			</div>
 		);
 		return (

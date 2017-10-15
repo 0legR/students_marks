@@ -14,6 +14,7 @@ class SignUp extends Component {
 		this.state = {
 			username: "",
 			email: "",
+			phones: "",
 			password: "",
 			passwordConfirmation: "",
 			timezone: "",
@@ -40,7 +41,7 @@ class SignUp extends Component {
 			this.props.isUserExists(val).then(res => {
 				let errors = this.state.errors;
 				let invalid;
-				if (res.data) {
+				if (res.data.length !== 0) {
 					errors[field] = "There is user with such " + field;
 					invalid = true;
 				} else {
@@ -79,6 +80,7 @@ class SignUp extends Component {
 		this.setState({
 			username: "",
 			email: "",
+			phones: "",
 			password: "",
 			passwordConfirmation: "",
 			timezone: ""
@@ -90,8 +92,7 @@ class SignUp extends Component {
 		const options = timezones.map((val, key) => 
 			<option key={val.text} value={val.text}>{val.value}</option>);
 
-		const {errors, username, email, password, passwordConfirmation, timezone, isLoading, invalid} = this.state;
-
+		const {errors, username, email, phones, password, passwordConfirmation, timezone, isLoading, invalid} = this.state;
 		return (
 			<form className={classnames("ui", "form signup", {loading: this.state.isLoading})} onSubmit={this.handleOnSubmit}>
 				<h1>User Registration</h1>
@@ -111,6 +112,13 @@ class SignUp extends Component {
 					value={email}
 					field="email"
 					type="email"
+				/>
+				<TextFieldGroup
+					error={errors.phones}
+					label="Phone"
+					onChange={this.handleOnChange}
+					value={phones}
+					field="phones"
 				/>
 				<TextFieldGroup
 					error={errors.password}

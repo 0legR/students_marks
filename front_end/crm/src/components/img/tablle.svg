@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22.094" height="14" viewBox="0 0 22.094 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+        opacity: 0.3;
+      }
+    </style>
+  </defs>
+  <path id="Столл" class="cls-1" d="M533.1,245v4.8h-7.715v7.508h1.552V259h-4.878v-1.694h1.552V249.8H515.9V245h17.2Zm3.124,6.58v-5.733H538V259h-1.774v-2.695h-4.532V259h-1.773v-7.421h6.3Z" transform="translate(-515.906 -245)"/>
+</svg>

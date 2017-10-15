@@ -46,6 +46,8 @@ Route::get('/api/students/weigth/{id}', 'StudentsSettingsController@getWeigth');
 Route::put('/api/students/weigth/{id}', 'StudentsSettingsController@storeWeigth');
 Route::delete('/api/students/weigth/{id}', 'StudentsSettingsController@destroyWeigth');
 
+//----------------------------kanban ---------------------------------
+Route::get('/api/kanban', 'KanbanController@getUsers');
 
 
 

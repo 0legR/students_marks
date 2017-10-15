@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19" height="17" viewBox="0 0 19 17">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #090;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <path id="чек_бокс" data-name="чек бокс" class="cls-1" d="M52.306,670.071H39.9V657.443H51.5l1.9-1.929H38V672H54.2V660.956l-1.9,1.929v7.186Zm-7.815-10.686-2.007,2.042,5.1,5.192L57,657.042,54.993,655l-7.406,7.535Z" transform="translate(-38 -655)"/>
+</svg>

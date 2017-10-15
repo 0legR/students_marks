@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="14" viewBox="0 0 27 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill-rule: evenodd;
+        opacity: 0.3;
+      }
+    </style>
+  </defs>
+  <path id="Стол" class="cls-1" d="M241.9,245v4.8h7.716v7.508h-1.552V259h4.878v-1.694h-1.552V249.8H259.1V245H241.9Zm-3.123,6.58v-5.733H237V259h1.774v-2.695h4.531V259h1.774v-7.421h-6.305Zm23.452-5.733v5.733H255.92V259h1.774v-2.695h4.532V259H264V245.846h-1.774Z" transform="translate(-237 -245)"/>
+</svg>

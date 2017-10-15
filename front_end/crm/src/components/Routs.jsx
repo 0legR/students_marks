@@ -15,6 +15,7 @@ import MarksSettings from './marks/marksColumnSettings/MarksSettingsIndex';
 import MarksSettingsFormPage from './marks/marksColumnSettings/MarksSettingsFormPage';
 import MarksWeigth from './marks/weigth/MarksWeigthIndex';
 import MarksWeigthFormPage from './marks/weigth/MarksWeigthFormPage';
+import Kanban from './menu/Kanban';
 
 const Routs = () => 
 	<Router>
@@ -23,6 +24,7 @@ const Routs = () =>
 			<Route path="/home" component={requireAuth(Home)} />
 			<Route path="/settings" component={requireAuth(Settings)} />
 			<Route path="/marks" exact component={requireAuth(Marks)} />
+			<Route path="/kanban" exact component={requireAuth(Kanban)} />
 			<Route path="/marks/settings" exact component={requireAuth(MarksSettings)} />
 			<Route path="/marks/settings/create" exact component={requireAuth(MarksSettingsFormPage)} />
 			<Route path="/marks/settings/update/:name" exact component={requireAuth(MarksSettingsFormPage)} />

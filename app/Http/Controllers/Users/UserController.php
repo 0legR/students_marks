@@ -32,7 +32,8 @@ class UserController extends Controller
         $userAttributes = $request->only([
         	'username',
         	'email',
-        	'timezone'
+        	'timezone',
+            'phones'
         ]);
         $user->fill($userAttributes);
         $user->usertype = User::TYPE_ADMIN;
