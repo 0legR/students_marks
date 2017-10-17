@@ -281,12 +281,39 @@
   }
 }
 
-.client-info-container {
+.client-info-container,
+.order-content-container {
 	margin: 5px;
 }
 
 .client-info-container p {
 	font-size: 12px;
+}
+
+.order-content-checkbox-unchecked input,
+.order-content-checkbox-checked input {
+	visibility: hidden;
+}
+
+.order-content-checkbox-unchecked {
+	display: block;
+	background-image: url("./components/img/unchecked.svg");
+	background-repeat: no-repeat;
+	background-size: 15px;
+}
+
+.order-content-checkbox-checked {
+	display: block;
+	background-image: url("./components/img/checked.svg");
+	background-repeat: no-repeat;
+	background-size: 18px;
+}
+
+.order-content-label {
+	font-size: 12px;
+	margin-left: 10px;
+	padding-bottom: 3px;
+	color: rgba(153, 153, 153, 1);
 }
 
 
